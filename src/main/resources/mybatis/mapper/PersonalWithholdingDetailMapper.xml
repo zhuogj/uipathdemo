@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.PersonalWithholdingDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.example.demo.model.PersonalWithholdingDetail" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column=" licence_num" property="licenceNum" jdbcType="VARCHAR" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="staff_num" property="staffNum" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="certificate_type" property="certificateType" jdbcType="VARCHAR" />
+    <result column="certificate_num" property="certificateNum" jdbcType="VARCHAR" />
+    <result column="date_begin" property="dateBegin" jdbcType="DATE" />
+    <result column="date_end" property="dateEnd" jdbcType="DATE" />
+    <result column="current_income" property="currentIncome" jdbcType="DECIMAL" />
+    <result column="current_free_income" property="currentFreeIncome" jdbcType="DECIMAL" />
+    <result column="endowment_insurance" property="endowmentInsurance" jdbcType="DECIMAL" />
+    <result column="medical_insurance" property="medicalInsurance" jdbcType="DECIMAL" />
+    <result column="unemployment_insurance" property="unemploymentInsurance" jdbcType="DECIMAL" />
+    <result column="housing_provident_fund" property="housingProvidentFund" jdbcType="DECIMAL" />
+    <result column="cumulative_child_education" property="cumulativeChildEducation" jdbcType="DECIMAL" />
+    <result column="cumulative_home_loan_interest" property="cumulativeHomeLoanInterest" jdbcType="DECIMAL" />
+    <result column="cumulative_housing_rent" property="cumulativeHousingRent" jdbcType="DECIMAL" />
+    <result column="cumulative_support _elderly" property="cumulativeSupportElderly" jdbcType="DECIMAL" />
+    <result column="cumulative_continuing_cducation" property="cumulativeContinuingCducation" jdbcType="DECIMAL" />
+    <result column="enterprise_occupational_annuity" property="enterpriseOccupationalAnnuity" jdbcType="DECIMAL" />
+    <result column="commercial_health_insurance" property="commercialHealthInsurance" jdbcType="DECIMAL" />
+    <result column="deferred_endowment_insurance" property="deferredEndowmentInsurance" jdbcType="DECIMAL" />
+    <result column="other" property="other" jdbcType="DECIMAL" />
+    <result column="allowed_deduction_donations" property="allowedDeductionDonations" jdbcType="DECIMAL" />
+    <result column="pre_tax_deduction_items" property="preTaxDeductionItems" jdbcType="DECIMAL" />
+    <result column="tax_savings" property="taxSavings" jdbcType="DECIMAL" />
+    <result column="deduction_criteria" property="deductionCriteria" jdbcType="DECIMAL" />
+    <result column="withholding_tax" property="withholdingTax" jdbcType="DECIMAL" />
+    <result column="declaration_note" property="declarationNote" jdbcType="VARCHAR" />
+    <result column="src_link" property="srcLink" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from personal_withholding_detail
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.model.PersonalWithholdingDetail" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into personal_withholding_detail (` licence_num`, company_name, staff_num, 
+      `name`, certificate_type, certificate_num, 
+      date_begin, date_end, current_income, 
+      current_free_income, endowment_insurance, 
+      medical_insurance, unemployment_insurance, 
+      housing_provident_fund, cumulative_child_education, 
+      cumulative_home_loan_interest, cumulative_housing_rent, 
+      `cumulative_support _elderly`, cumulative_continuing_cducation, 
+      enterprise_occupational_annuity, commercial_health_insurance, 
+      deferred_endowment_insurance, other, allowed_deduction_donations, 
+      pre_tax_deduction_items, tax_savings, deduction_criteria, 
+      withholding_tax, declaration_note, src_link, 
+      create_time, update_time, `status`, 
+      remarks)
+    values (#{licenceNum,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{staffNum,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{certificateType,jdbcType=VARCHAR}, #{certificateNum,jdbcType=VARCHAR}, 
+      #{dateBegin,jdbcType=DATE}, #{dateEnd,jdbcType=DATE}, #{currentIncome,jdbcType=DECIMAL}, 
+      #{currentFreeIncome,jdbcType=DECIMAL}, #{endowmentInsurance,jdbcType=DECIMAL}, 
+      #{medicalInsurance,jdbcType=DECIMAL}, #{unemploymentInsurance,jdbcType=DECIMAL}, 
+      #{housingProvidentFund,jdbcType=DECIMAL}, #{cumulativeChildEducation,jdbcType=DECIMAL}, 
+      #{cumulativeHomeLoanInterest,jdbcType=DECIMAL}, #{cumulativeHousingRent,jdbcType=DECIMAL}, 
+      #{cumulativeSupportElderly,jdbcType=DECIMAL}, #{cumulativeContinuingCducation,jdbcType=DECIMAL}, 
+      #{enterpriseOccupationalAnnuity,jdbcType=DECIMAL}, #{commercialHealthInsurance,jdbcType=DECIMAL}, 
+      #{deferredEndowmentInsurance,jdbcType=DECIMAL}, #{other,jdbcType=DECIMAL}, #{allowedDeductionDonations,jdbcType=DECIMAL}, 
+      #{preTaxDeductionItems,jdbcType=DECIMAL}, #{taxSavings,jdbcType=DECIMAL}, #{deductionCriteria,jdbcType=DECIMAL}, 
+      #{withholdingTax,jdbcType=DECIMAL}, #{declarationNote,jdbcType=VARCHAR}, #{srcLink,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, 
+      #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.model.PersonalWithholdingDetail" >
+    update personal_withholding_detail
+    set ` licence_num` = #{licenceNum,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      staff_num = #{staffNum,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+      certificate_type = #{certificateType,jdbcType=VARCHAR},
+      certificate_num = #{certificateNum,jdbcType=VARCHAR},
+      date_begin = #{dateBegin,jdbcType=DATE},
+      date_end = #{dateEnd,jdbcType=DATE},
+      current_income = #{currentIncome,jdbcType=DECIMAL},
+      current_free_income = #{currentFreeIncome,jdbcType=DECIMAL},
+      endowment_insurance = #{endowmentInsurance,jdbcType=DECIMAL},
+      medical_insurance = #{medicalInsurance,jdbcType=DECIMAL},
+      unemployment_insurance = #{unemploymentInsurance,jdbcType=DECIMAL},
+      housing_provident_fund = #{housingProvidentFund,jdbcType=DECIMAL},
+      cumulative_child_education = #{cumulativeChildEducation,jdbcType=DECIMAL},
+      cumulative_home_loan_interest = #{cumulativeHomeLoanInterest,jdbcType=DECIMAL},
+      cumulative_housing_rent = #{cumulativeHousingRent,jdbcType=DECIMAL},
+      `cumulative_support _elderly` = #{cumulativeSupportElderly,jdbcType=DECIMAL},
+      cumulative_continuing_cducation = #{cumulativeContinuingCducation,jdbcType=DECIMAL},
+      enterprise_occupational_annuity = #{enterpriseOccupationalAnnuity,jdbcType=DECIMAL},
+      commercial_health_insurance = #{commercialHealthInsurance,jdbcType=DECIMAL},
+      deferred_endowment_insurance = #{deferredEndowmentInsurance,jdbcType=DECIMAL},
+      other = #{other,jdbcType=DECIMAL},
+      allowed_deduction_donations = #{allowedDeductionDonations,jdbcType=DECIMAL},
+      pre_tax_deduction_items = #{preTaxDeductionItems,jdbcType=DECIMAL},
+      tax_savings = #{taxSavings,jdbcType=DECIMAL},
+      deduction_criteria = #{deductionCriteria,jdbcType=DECIMAL},
+      withholding_tax = #{withholdingTax,jdbcType=DECIMAL},
+      declaration_note = #{declarationNote,jdbcType=VARCHAR},
+      src_link = #{srcLink,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      `status` = #{status,jdbcType=TINYINT},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, ` licence_num`, company_name, staff_num, `name`, certificate_type, certificate_num, 
+    date_begin, date_end, current_income, current_free_income, endowment_insurance, medical_insurance, 
+    unemployment_insurance, housing_provident_fund, cumulative_child_education, cumulative_home_loan_interest, 
+    cumulative_housing_rent, `cumulative_support _elderly`, cumulative_continuing_cducation, 
+    enterprise_occupational_annuity, commercial_health_insurance, deferred_endowment_insurance, 
+    other, allowed_deduction_donations, pre_tax_deduction_items, tax_savings, deduction_criteria, 
+    withholding_tax, declaration_note, src_link, create_time, update_time, `status`, 
+    remarks
+    from personal_withholding_detail
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, ` licence_num`, company_name, staff_num, `name`, certificate_type, certificate_num, 
+    date_begin, date_end, current_income, current_free_income, endowment_insurance, medical_insurance, 
+    unemployment_insurance, housing_provident_fund, cumulative_child_education, cumulative_home_loan_interest, 
+    cumulative_housing_rent, `cumulative_support _elderly`, cumulative_continuing_cducation, 
+    enterprise_occupational_annuity, commercial_health_insurance, deferred_endowment_insurance, 
+    other, allowed_deduction_donations, pre_tax_deduction_items, tax_savings, deduction_criteria, 
+    withholding_tax, declaration_note, src_link, create_time, update_time, `status`, 
+    remarks
+    from personal_withholding_detail
+  </select>
+</mapper>

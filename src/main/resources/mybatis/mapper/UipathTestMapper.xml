@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.UipathTestMapper" >
+
+    <insert id="insert" parameterType="com.example.demo.model.UipathTest" useGeneratedKeys="true" keyProperty="id">
+        insert into uipathtest(name,age,address,birthday,salary)
+        values (#{name},#{age},#{address},#{birthday},#{salary})
+    </insert>
+    <update id="update" parameterType="com.example.demo.model.UipathTest">
+        update uipathtest set src = #{src} where id = #{id}
+    </update>
+    <select id="selectById" parameterType="long" resultType="com.example.demo.model.UipathTest">
+        select * from  uipathtest where id = #{id}
+    </select>
+</mapper>
