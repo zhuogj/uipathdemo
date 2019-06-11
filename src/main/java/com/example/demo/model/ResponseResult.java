@@ -13,7 +13,6 @@ import lombok.ToString;
  */
 @Data
 @ToString
-@AllArgsConstructor
 @NoArgsConstructor
 public class ResponseResult {
     /**
@@ -31,6 +30,11 @@ public class ResponseResult {
     public ResponseResult(Integer code, String msg){
         this.code = code;
         this.msg = msg;
+    }
+    public ResponseResult(Integer code,String msg,Object data){
+        this.code =code;
+        this.data=data;
+        this.msg=msg;
     }
     public static ResponseResult OK(){
         return new ResponseResult(1,"success");

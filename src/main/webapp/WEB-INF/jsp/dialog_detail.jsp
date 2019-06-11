@@ -85,11 +85,13 @@
                     });
                 }else if (obj.event==='edit'){
                     $.ajax({
-                        type: "POST",
-                        dataType: "text",
+                        type: "GET",
+                        dataType: "json",
                         url: "/dialog/edit",
                         data: {"id":data.id},
-                        success: function () {
+                        success: function (data) {
+                            // var result = JSON.parse(data);
+                            // alert(result.id);
                             layer.open({
                                 type: 1,
                                 title: "配置图片信息",
@@ -102,7 +104,7 @@
                                 content:
                                     '<div id="configure">'
                                     +'   <div class="layui-carousel" id="test3" lay-filter="test3">'
-                                    +'      <div carousel-item class="carousel-item">'
+                                    +'      <div carousel-item class="carousel-item">' +
                                     +'      </div>'
                                     +'   </div>'
                                     +'</div>'

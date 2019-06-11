@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.DialogInfo;
+import com.example.demo.model.ResponseResult;
 import com.example.demo.service.DialogService;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -38,14 +40,12 @@ public class DialogController {
         model.addAttribute("list",dialogList);
         return "dialog_detail";
     }
-
-    @RequestMapping("/edit/{id}")
-    public String edit( @PathVariable("id")int id){
+    @ResponseBody
+    @RequestMapping("/edit")
+    public ResponseResult edit(Integer id){
         DialogInfo dialogInfo = dialogService.editDialog(id);
 //        model.addAttribute("p",dialogInfo);
-        JSONObject object = new JSONObject();
-        object.put("p",dialogInfo);
-        return object.toString();
-
+//        object.put("p",dialogInfo);
+        return new ResponseResult(1,"success",dialogInfo);
     }
 }
