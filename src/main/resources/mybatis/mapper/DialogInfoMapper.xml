@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.DialogInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.example.demo.model.DialogInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="dialog_name" property="dialogName" jdbcType="VARCHAR" />
+    <result column="dialog_content" property="dialogContent" jdbcType="VARCHAR" />
+    <result column="dialog_path" property="dialogPath" jdbcType="VARCHAR" />
+    <result column="optional_operation" property="optionalOperation" jdbcType="VARCHAR" />
+    <result column="selected_operation" property="selectedOperation" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from dialog_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <update id="updateStatusByPrimaryKey" parameterType="java.lang.Integer" >
+     update dialog_info set staus = 0
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <insert id="insert" parameterType="com.example.demo.model.DialogInfo" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into dialog_info (dialog_name, dialog_content, dialog_path, 
+      optional_operation, selected_operation, `status`, 
+      remarks)
+    values (#{dialogName,jdbcType=VARCHAR}, #{dialogContent,jdbcType=VARCHAR}, #{dialogPath,jdbcType=VARCHAR}, 
+      #{optionalOperation,jdbcType=VARCHAR}, #{selectedOperation,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.model.DialogInfo" >
+    update dialog_info
+    set dialog_name = #{dialogName,jdbcType=VARCHAR},
+      dialog_content = #{dialogContent,jdbcType=VARCHAR},
+      dialog_path = #{dialogPath,jdbcType=VARCHAR},
+      optional_operation = #{optionalOperation,jdbcType=VARCHAR},
+      selected_operation = #{selectedOperation,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=TINYINT},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, dialog_name, dialog_content, dialog_path, optional_operation, selected_operation, 
+    `status`, remarks
+    from dialog_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, dialog_name, dialog_content, dialog_path, optional_operation, selected_operation, 
+    `status`, remarks
+    from dialog_info
+  </select>
+</mapper>
