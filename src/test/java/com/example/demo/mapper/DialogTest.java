@@ -20,7 +20,6 @@ public class DialogTest extends DemoApplicationTests {
         dialogInfo.setDialogName("测试2");
         dialogInfo.setDialogContent("就是想要测试用的");
         dialogInfo.setDialogPath("file:///C:/Users/zhuoguangjing/Desktop/image/bb.png");
-        dialogInfo.setStatus(1);
         dialogInfoMapper.insert(dialogInfo);
     }
 }

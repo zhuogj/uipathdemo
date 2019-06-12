@@ -1,20 +1,21 @@
 package com.example.demo.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.example.demo.model.DialogInfo;
-import com.example.demo.model.ResponseResult;
 import com.example.demo.service.DialogService;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description :
@@ -42,10 +43,26 @@ public class DialogController {
     }
     @ResponseBody
     @RequestMapping("/edit")
-    public ResponseResult edit(Integer id){
+    public String edit(Integer id){
         DialogInfo dialogInfo = dialogService.editDialog(id);
-//        model.addAttribute("p",dialogInfo);
-//        object.put("p",dialogInfo);
-        return new ResponseResult(1,"success",dialogInfo);
+        Map<String,Object> map = new HashMap<>();
+        map.put("code",1);
+        map.put("msg","success");
+        map.put("data",dialogInfo);
+        String s =  JSONObject.toJSON(map).toString();
+        System.out.println(s);
+        return s;
+    }
+    @ResponseBody
+    @RequestMapping("/save")
+    public String save(DialogInfo dialogInfo){
+        System.out.println(dialogInfo);
+        if (dialogInfo!=null){
+            Date date = new Date();
+            dialogInfo.setUpdateTime(date);
+            dialogService.update(dialogInfo);
+            return "success";
+        }
+        return "false";
     }
 }

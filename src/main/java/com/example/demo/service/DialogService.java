@@ -32,4 +32,10 @@ public interface DialogService {
      * 逻辑删除，状态改为无效
      */
     void deleteDialog(Integer id);
+
+    /**
+     * 更新信息
+     * @param dialogInfo
+     */
+    void update(DialogInfo dialogInfo);
 }

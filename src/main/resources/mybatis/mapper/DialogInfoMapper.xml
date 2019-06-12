@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.DialogInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.example.demo.model.DialogInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="dialog_name" property="dialogName" jdbcType="VARCHAR" />
+    <result column="dialog_content" property="dialogContent" jdbcType="VARCHAR" />
+    <result column="dialog_path" property="dialogPath" jdbcType="VARCHAR" />
+    <result column="optional_operation" property="optionalOperation" jdbcType="VARCHAR" />
+    <result column="selected_operation" property="selectedOperation" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from dialog_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <update id="updateStatusByPrimaryKey" parameterType="java.lang.Integer" >
+    update dialog_info set status =0 where id = #{id,jdbcType=INTEGER}
+  </update>
+  <insert id="insert" parameterType="com.example.demo.model.DialogInfo" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into dialog_info (dialog_name, dialog_content, dialog_path, 
+      optional_operation, selected_operation, create_time, 
+      create_by, update_by, update_time, 
+      `status`, remarks)
+    values (#{dialogName,jdbcType=VARCHAR}, #{dialogContent,jdbcType=VARCHAR}, #{dialogPath,jdbcType=VARCHAR}, 
+      #{optionalOperation,jdbcType=VARCHAR}, #{selectedOperation,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=TINYINT}, #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.model.DialogInfo" >
+    update dialog_info
+    set dialog_name = #{dialogName,jdbcType=VARCHAR},
+      dialog_content = #{dialogContent,jdbcType=VARCHAR},
+      dialog_path = #{dialogPath,jdbcType=VARCHAR},
+      optional_operation = #{optionalOperation,jdbcType=VARCHAR},
+      selected_operation = #{selectedOperation,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      `status` = #{status,jdbcType=TINYINT},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateWithModel" parameterType="com.example.demo.model.DialogInfo">
+    update dialog_info
+    <set>
+      <if test="dialogName !=null and dialogName !=''">
+        dialog_name = #{dialogName,jdbcType=VARCHAR},
+      </if>
+      <if test="dialogContent !=null and dialogContent !=''">
+        dialog_content = #{dialogContent,jdbcType=VARCHAR},
+      </if>
+      <if test="dialogPath !=null and dialogPath !=''">
+        dialog_path = #{dialogPath,jdbcType=VARCHAR},
+      </if>
+      <if test="optionalOperation !=null and optionalOperation !=''">
+        optional_operation = #{optionalOperation,jdbcType=VARCHAR},
+      </if>
+      <if test="selectedOperation !=null and selectedOperation !=''">
+        selected_operation = #{selectedOperation,jdbcType=TINYINT},
+      </if>
+      <if test="status !=null and status !=''">
+        `status` = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks !=null and remarks !=''">
+        remarks  = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, dialog_name, dialog_content, dialog_path, optional_operation, selected_operation, 
+    create_time, create_by, update_by, update_time, `status`, remarks
+    from dialog_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, dialog_name, dialog_content, dialog_path, optional_operation, selected_operation, 
+    create_time, create_by, update_by, update_time, `status`, remarks
+    from dialog_info
+  </select>
+</mapper>

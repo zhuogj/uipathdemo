@@ -72,4 +72,9 @@ public class DialogServiceImpl implements DialogService {
     public void deleteDialog(Integer id) {
         dialogInfoMapper.updateStatusByPrimaryKey(id);
     }
+
+    @Override
+    public void update(DialogInfo dialogInfo) {
+        dialogInfoMapper.updateWithModel(dialogInfo);
+    }
 }
