@@ -38,43 +38,15 @@
         }
     </style>
     <script id="edit-form" type="text/html">
-        <form class="layui-form" action="/dialog/save">
-            <div class="layui-form-item">
-                <label class="layui-form-label">对话框名称</label>
-                <div class="layui-input-block">
-                    <input type="text" name="dialogName" id="dialogName" lay-verify="title" autocomplete="off" placeholder="请输入名称" class="layui-input" value="">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">对话框内容</label>
-                <div class="layui-input-block">
-                    <input type="text" name="dialogContent" id="dialogContent" readonly autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">图片地址</label>
-                <div class="layui-input-block">
-                    <input type="text" name="dialogPath" id="dialogPath" readonly autocomplete="off" class="layui-input">
-                </div>
-            </div>
 
-            <div class="layui-form-item">
-                <label class="layui-form-label">选择操作</label>
-                <div class="layui-input-block">
-                    <input type="radio" name="selectedOperation" value="确认" title="确认" >
-                    <input type="radio" name="selectedOperation" value="取消" title="取消">
-                    <input type="radio" name="selectedOperation" value="其它" title="其它" >
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">当前图片</label>
-                <img src="https://www.51shebao.com/201906061201/statics/output/images/index/13.png">
-            </div>
-        </form>
     </script>
     <%--编辑对话框配置起点--%>
     <script>
-        layui.use('table', function () {
+        layui.use(['layer','table','form'], function () {
+            var layer = layui.layer,
+            $ = layui.jquery
+                , form = layui.form
+                , element = layui.element;
             var table = layui.table;
             //监听工具条
             table.on('tool(demo)', function (obj) {
@@ -103,8 +75,54 @@
                                 cancel: function (index, layro) {
                                     return false;
                                 },
-                                content: $('#edit-form').html(),
+                                content: '<form class="layui-form" action="/dialog/save" id="editForm" lay-filter="editForm">' +
+                                    '            <div class="layui-form-item">' +
+                                    '                <label class="layui-form-label">对话框名称</label>' +
+                                    '                <div class="layui-input-block">' +
+                                    '                    <input type="text" name="dialogName" id="dialogName" lay-verify="title" autocomplete="off" placeholder="请输入名称" class="layui-input" value="' + mdata.dialogName + '">' +
+                                    '<input type="hidden" value="'+data.id+'" name="id">' +
+                                    '                </div>' +
+                                    '            </div>' +
+                                    '            <div class="layui-form-item">' +
+                                    '                <label class="layui-form-label">对话框内容</label>' +
+                                    '                <div class="layui-input-block">' +
+                                    '                    <input type="text" name="dialogContent" id="dialogContent" readonly autocomplete="off" class="layui-input" value="' + mdata.dialogContent + '">\n' +
+                                    '                </div>' +
+                                    '            </div>' +
+                                    '            <div class="layui-form-item">' +
+                                    '                <label class="layui-form-label">图片地址</label>' +
+                                    '                <div class="layui-input-block">' +
+                                    '                    <input type="text" name="dialogPath" id="dialogPath" readonly autocomplete="off" class="layui-input" value="' + mdata.dialogPath + '">\n' +
+                                    '                </div>' +
+                                    '            </div>' +
+                                    '' +
+                                    '            <div class="layui-form-item">' +
+                                    '                <label class="layui-form-label">选择操作</label>' +
+                                    '                <div class="layui-input-block">' +
+                                    '                    <input type="radio" name="selectedOperation" value="确定" title="确定" checked="" >' +
+                                    '                    <input type="radio" name="selectedOperation" value="取消" title="取消">' +
+                                    '                    <input type="radio" name="selectedOperation" value="其它" title="其它" >' +
+                                    '                </div>' +
+                                    '            </div>' +
+                                    '            <div class="layui-form-item">' +
+                                    '                <label class="layui-form-label">当前图片</label>' +
+                                    '                <img src="https://www.51shebao.com/201906061201/statics/output/images/index/13.png">' +
+                                    '            </div>' +
+                                    '<div class="layui-form-item">' +
+                                    '<div class="layui-input-block">' +
+                                    '<button class="layui-btn" lay-submit lay-filter="quicklySumbit" >立即提交</button>' +
+                                    '<button type="reset" class="layui-btn layui-btn-primary">重置</button>  ' +
+                                    '<button id="button" class="layui-btn layui-btn-primary " style="width:86px;height:40px;clear:both;margin:22px 50px;" onclick="layer.close(layer.index)" >取消</button>' +
+                                    '</div> ' +
+                                    '</div>  ' +
+                                    '        </form>'
                             });
+                            //表单初始赋值
+                            alert(mdata.selectedOperation);
+                            form.val('editForm', {
+                                "selectedOperation": mdata.selectedOperation,
+                            });
+                            form.render();
                         }
                     })
                 }
@@ -114,7 +132,54 @@
                 var type = $(this).data('type');
                 active[type] ? active[type].call(this) : '';
             });
+
+
+            //提交监听事件
+            form.on('submit(quicklySumbit)', function (data) {
+                console.log(data);
+                params = data.field;
+                console.log(params.dialogName);
+                //alert(JSON.stringify(params))
+                var formdata = new FormData($("#edit-form")[0]);
+                var index = layer.load(1, {
+                    shade: [0.5, '#000'] //0.1透明度的白色背景
+                });
+                $.ajax({
+                    url: "/dialog/save",
+                    method: 'post',
+                    data: formdata,
+                    dataType: 'JSON',
+                    processData: false,
+                    contentType: false,
+                    success: function (res) {
+                        // console.log(333);
+                        layer.close(index);
+                        layer.alert('上传成功', {
+                            skin: 'layui-layer-molv' //样式类名
+                            , closeBtn: 0
+                        }, function () {
+                            location.reload();
+                        });
+                        // location.reload(); // 页面刷新
+                        return false
+                    },
+                    error: function (res) {
+                        console.log(res.code);
+                        // location.reload(); // 页面刷新
+                        // return false
+                    }
+                });
+                var obj = document.getElementById('closeBtn');
+                obj.addEventListener('click', function cancel() {
+                    CloseWin();
+                });
+
+                // submit($,params);
+                return false;
+            })
         });
+
+
     </script>
     <%--编辑对话框配置终点--%>
 
@@ -126,10 +191,9 @@
             var dialogName = $("#dialogName").val();
             var id = $("#dialogId").val();
             var dialogContent = $("#dialogContent").val();
-            var optionalOperation = $("#optionalOperation").val();
             var selectedOperation = $("#selectedOperation").val();
-            alert(dialogName + dialogContent + optionalOperation + selectedOperation);
-            if (dialogName == null || dialogName == '' || dialogId == null || dialogId == '' || dialogContent == null || dialogContent == '' || selectedOperation == '' || selectedOperation == null) {
+            var dialogPath = $("#dialogPath").val();
+            if (dialogName == null || dialogName == '' || dialogContent == null || dialogContent == '' || selectedOperation == '' || selectedOperation == null) {
                 alert("配置信息不完整！");
                 return false;
             } else {
@@ -157,7 +221,6 @@
             }
         };
     </script>
-
 
 
 </head>
