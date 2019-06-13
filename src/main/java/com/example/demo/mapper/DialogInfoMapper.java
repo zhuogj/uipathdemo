@@ -20,5 +20,5 @@ public interface DialogInfoMapper {
      * @param record
      * @return
      */
-    int updateWithModel(DialogInfo record);
+    int updateWithModified(DialogInfo record);
 }

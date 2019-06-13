@@ -49,7 +49,7 @@
             window.location.href='/index/hello'
         }
         function dialogDeploy(){
-            window.location.href='/dialog/show'
+            window.location.href='/dialog/getList'
         }
     </script>
 </head>

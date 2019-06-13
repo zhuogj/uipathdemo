@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import com.example.demo.model.DialogInfo;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -18,10 +17,6 @@ public interface DialogService {
      */
     List<DialogInfo> getDialogList();
 
-    /**
-     * 增加对话框配置
-     */
-    void addDialogList(DialogInfo dialogInfo, MultipartFile multipartFile);
 
     /**
      * 修改对话框
@@ -34,10 +29,10 @@ public interface DialogService {
     void deleteDialog(Integer id);
 
     /**
-     * 更新信息
+     * 更新被修改的部分,其余部分不动
      * @param dialogInfo
      */
-    void update(DialogInfo dialogInfo);
+    void updateWithModified(DialogInfo dialogInfo);
 
     /**
      * 插入数据

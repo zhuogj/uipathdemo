@@ -83,11 +83,11 @@
                                     '<div class="layui-input-inline">' +
                                     '<input name="dialogContent" id="dialogContent" lay-verify=required"  placeholder="对话框名称" class="layui-input configInput" value="' + mdata.dialogContent + '" required> ' +
                                     '</div>' +
-                                    '<label class="layui-form-label carouselLabel">可选操作</label> ' +
+                                    '<label class="layui-form-label carouselLabel">图片地址</label> ' +
                                     '<div class="layui-input-inline">' +
-                                    '<input name="optionalOperation" id="optionalOperation"  readonly lay-verify=required" autocomplete="off" placeholder="对话框名称" class="layui-input configInput" value="' + mdata.optionalOperation + '" required> ' +
+                                    '<input name="optionalOperation" id="dialogPath"  readonly lay-verify=required" autocomplete="off" placeholder="图片地址" class="layui-input configInput" value="' + mdata.dialogPath + '" required> ' +
                                     '</div>' +
-                                    '<label class="layui-form-label carouselLabel">已选操作</label> ' +
+                                    '<label class="layui-form-label carouselLabel">选择操作</label> ' +
                                     '<div class="layui-input-inline">' +
                                     '<input name="selectedOperation" id="selectedOperation" lay-verify=required" autocomplete="off" placeholder="对话框名称" class="layui-input configInput" value="' + mdata.selectedOperation + '" required> ' +
                                     '</div>' +
@@ -112,10 +112,6 @@
 
     <%--提交对话框编辑配置起点--%>
     <script>
-        layui.use('form', function () {  //此段代码必不可少
-            var form = layui.form;
-            form.render();
-        });
 
         function submitConfiguration() {
             // alert("aa");
@@ -125,7 +121,7 @@
             var optionalOperation = $("#optionalOperation").val();
             var selectedOperation = $("#selectedOperation").val();
             alert(dialogName + dialogContent + optionalOperation + selectedOperation);
-            if (dialogName == null || dialogName == '' || dialogId == null || dialogId == '' || dialogContent == null || dialogContent == '' || optionalOperation == null || optionalOperation == '' || selectedOperation == '' | selectedOperation == null) {
+            if (dialogName == null || dialogName == '' || dialogId == null || dialogId == '' || dialogContent == null || dialogContent == '' || selectedOperation == '' || selectedOperation == null) {
                 alert("配置信息不完整！");
                 return false;
             } else {
@@ -136,7 +132,6 @@
                         id: id,
                         dialogName: dialogName,
                         dialogContent: dialogContent,
-                        optionalOperation: optionalOperation,
                         selectedOperation: selectedOperation
                     },
                     success: function (data) {
@@ -144,7 +139,7 @@
                             layer.msg('更新数据失败!');
                         } else {
                             layer.msg('更新数据成功，即将跳转至列表页', {icon: 1});
-                            window.location.href = "/dialog/show";
+                            window.location.href = "/dialog/getList";
                         }
                     },
                     error: function (e) {
@@ -161,7 +156,8 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">照片</label>
                 <div class="layui-input-block">
-                    <input type="file" name="uploadFile" required value="" style="width: 240px" lay-verify="required" autocomplete="off" class="layui-input">
+                    <input type="file" name="uploadFile" required value="" style="width: 240px" lay-verify="required"
+                           autocomplete="off" class="layui-input">
                 </div>
             </div>
         </div>
@@ -172,10 +168,10 @@
     <script>
 
         function addConfiguration() {
-            layui.use(['layer', 'form', 'element'], function(){
+            layui.use(['layer', 'form', 'element'], function () {
                 var layer = layui.layer
-                    ,form = layui.form
-                    ,element = layui.element;
+                    , form = layui.form
+                    , element = layui.element;
                 layer.open({
                     type: 1,
                     title: "配置图片信息",
@@ -193,12 +189,6 @@
                         '<input type="text" name="dialogName" required lay-verify="required" placeholder="请输入对话框名称" autocomplete="off" class="layui-input"> ' +
                         '</div> ' +
                         '</div>' +
-                        '<div class="layui-form-item">' +
-                        '<label class="layui-form-label"> 对话框内容</label>' +
-                        '<div class="layui-input-inline">' +
-                        '<input type="text" name="dialogContent" required lay-verify="required" placeholder="请输入对话框内容" autocomplete="off" class="layui-input" > ' +
-                        '</div> ' +
-                        '</div> ' +
                         '<div class="layui-form-item">' +
                         '<div class="layui-form-item" pane="">' +
                         '    <label class="layui-form-label">选择操作</label>' +
@@ -226,7 +216,7 @@
 
             });
 
-            };
+        };
 
         layui.use(['layer', 'form'], function () {
             var layer = layui.layer,
@@ -240,28 +230,28 @@
                 //alert(JSON.stringify(params))
                 var formdata = new FormData($("#filetb")[0]);
                 var index = layer.load(1, {
-                    shade: [0.5,'#000'] //0.1透明度的白色背景
+                    shade: [0.5, '#000'] //0.1透明度的白色背景
                 });
                 $.ajax({
-                    url:"/dialog/save",
-                    method:'post',
-                    data:formdata,
-                    dataType:'JSON',
+                    url: "/dialog/save",
+                    method: 'post',
+                    data: formdata,
+                    dataType: 'JSON',
                     processData: false,
                     contentType: false,
-                    success:function(res){
+                    success: function (res) {
                         // console.log(333);
                         layer.close(index);
                         layer.alert('上传成功', {
                             skin: 'layui-layer-molv' //样式类名
-                            ,closeBtn: 0
-                        }, function(){
+                            , closeBtn: 0
+                        }, function () {
                             location.reload();
                         });
                         // location.reload(); // 页面刷新
                         return false
                     },
-                    error:function (res) {
+                    error: function (res) {
                         console.log(res.code);
                         // location.reload(); // 页面刷新
                         // return false
@@ -272,12 +262,13 @@
                 return false;
             })
             var obj = document.getElementById('closeBtn');
-            obj.addEventListener('click', function cancel(){
+            obj.addEventListener('click', function cancel() {
                 CloseWin();
             });
         })
+
         //关闭页面
-        function CloseWin(){
+        function CloseWin() {
             parent.location.reload(); // 父页面刷新
             var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
             parent.layer.close(index); //再执行关闭
@@ -323,7 +314,7 @@
                 </div>
 
                 <script type="text/html" id="barDemo">
-                    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" >删除</a>
                     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit">编辑</a>
                 </script>
                 <div class="input">

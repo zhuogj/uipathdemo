@@ -6,7 +6,6 @@
     <result column="dialog_name" property="dialogName" jdbcType="VARCHAR" />
     <result column="dialog_content" property="dialogContent" jdbcType="VARCHAR" />
     <result column="dialog_path" property="dialogPath" jdbcType="VARCHAR" />
-    <result column="optional_operation" property="optionalOperation" jdbcType="VARCHAR" />
     <result column="selected_operation" property="selectedOperation" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="create_by" property="createBy" jdbcType="VARCHAR" />
@@ -27,11 +26,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into dialog_info (dialog_name, dialog_content, dialog_path, 
-      optional_operation, selected_operation, create_time, 
+       selected_operation, create_time,
       create_by, update_by, update_time, 
       `status`, remarks)
     values (#{dialogName,jdbcType=VARCHAR}, #{dialogContent,jdbcType=VARCHAR}, #{dialogPath,jdbcType=VARCHAR}, 
-      #{optionalOperation,jdbcType=VARCHAR}, #{selectedOperation,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+       #{selectedOperation,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
       #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{status,jdbcType=TINYINT}, #{remarks,jdbcType=VARCHAR})
   </insert>
@@ -40,7 +39,6 @@
     set dialog_name = #{dialogName,jdbcType=VARCHAR},
       dialog_content = #{dialogContent,jdbcType=VARCHAR},
       dialog_path = #{dialogPath,jdbcType=VARCHAR},
-      optional_operation = #{optionalOperation,jdbcType=VARCHAR},
       selected_operation = #{selectedOperation,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_by = #{createBy,jdbcType=VARCHAR},
@@ -50,7 +48,7 @@
       remarks = #{remarks,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateWithModel" parameterType="com.example.demo.model.DialogInfo">
+  <update id="updateWithModified" parameterType="com.example.demo.model.DialogInfo">
     update dialog_info
     <set>
       <if test="dialogName !=null and dialogName !=''">
@@ -62,9 +60,7 @@
       <if test="dialogPath !=null and dialogPath !=''">
         dialog_path = #{dialogPath,jdbcType=VARCHAR},
       </if>
-      <if test="optionalOperation !=null and optionalOperation !=''">
-        optional_operation = #{optionalOperation,jdbcType=VARCHAR},
-      </if>
+
       <if test="selectedOperation !=null and selectedOperation !=''">
         selected_operation = #{selectedOperation,jdbcType=TINYINT},
       </if>
@@ -83,13 +79,13 @@
 
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, dialog_name, dialog_content, dialog_path, optional_operation, selected_operation, 
+    select id, dialog_name, dialog_content, dialog_path, selected_operation,
     create_time, create_by, update_by, update_time, `status`, remarks
     from dialog_info
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select id, dialog_name, dialog_content, dialog_path, optional_operation, selected_operation, 
+    select id, dialog_name, dialog_content, dialog_path, selected_operation,
     create_time, create_by, update_by, update_time, `status`, remarks
     from dialog_info
   </select>
