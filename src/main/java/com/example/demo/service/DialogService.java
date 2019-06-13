@@ -38,4 +38,11 @@ public interface DialogService {
      * @param dialogInfo
      */
     void update(DialogInfo dialogInfo);
+
+    /**
+     * 插入数据
+     * @param dialogInfo
+     * @return
+     */
+    int insert(DialogInfo dialogInfo);
 }

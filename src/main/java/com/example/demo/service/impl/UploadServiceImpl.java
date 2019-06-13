@@ -121,7 +121,36 @@ public class UploadServiceImpl implements UploadService {
         try {
             bufferedInputStream = new BufferedInputStream(inputStream);
 //            new AliOssService().uploadFile(bufferedInputStream,key);
+            BufferedImage read = ImageIO.read(bufferedInputStream);
+            ImageIO.write(read,"jpg",new File("C:\\Users\\zhuoguangjing\\Desktop\\image\\dd.jpg"));
+
             logger.info("调用阿里上传服务，图片key:[{}],接口耗时:[{}]",key,System.currentTimeMillis()-startTime);
+            return new ResponseResult(1,"success",key);
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("调用图片上传功能失败：",e);
+            return ResponseResult.ERROR();
+        }finally {
+            if(bufferedInputStream != null){
+                try {bufferedInputStream.close();} catch (IOException e) {}
+            }
+            if(inputStream != null){
+                try {inputStream.close();} catch (IOException e) {}
+            }
+        }
+    }
+
+    @Override
+    public ResponseResult uploadImage(InputStream inputStream, String test) {
+        String uuid = UUID.randomUUID().toString().replace("-","");
+        SimpleDateFormat sdf = new SimpleDateFormat(GlobalConstants.DATE_FORMAT);
+        String key = uuid + sdf.format(new Date())+GlobalConstants.IMAGE_SUFFIX;
+        BufferedInputStream bufferedInputStream = null;
+        try {
+            bufferedInputStream = new BufferedInputStream(inputStream);
+//            new AliOssService().uploadFile(bufferedInputStream,key);
+            BufferedImage read = ImageIO.read(bufferedInputStream);
+            ImageIO.write(read,"jpg",new File("C:\\Users\\zhuoguangjing\\Desktop\\image\\dd.jpg"));
             return new ResponseResult(1,"success",key);
         }catch (Exception e){
             e.printStackTrace();

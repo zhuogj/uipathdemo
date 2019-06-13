@@ -77,4 +77,10 @@ public class DialogServiceImpl implements DialogService {
     public void update(DialogInfo dialogInfo) {
         dialogInfoMapper.updateWithModel(dialogInfo);
     }
+
+    @Override
+    public int insert(DialogInfo dialogInfo) {
+        dialogInfoMapper.insert(dialogInfo);
+        return 0;
+    }
 }

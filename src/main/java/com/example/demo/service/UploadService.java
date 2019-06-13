@@ -32,4 +32,10 @@ public interface UploadService {
      * @return
      */
     ResponseResult uploadImage(InputStream inputStream);
+
+    /**
+     * 用流上传图片测试版
+     */
+    ResponseResult uploadImage(InputStream inputStream,String test);
+
 }
