@@ -38,7 +38,39 @@
         }
     </style>
     <script id="edit-form" type="text/html">
+        <form class="layui-form" action="/dialog/save">
+            <div class="layui-form-item">
+                <label class="layui-form-label">对话框名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dialogName" id="dialogName" lay-verify="title" autocomplete="off" placeholder="请输入名称" class="layui-input" value="">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">对话框内容</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dialogContent" id="dialogContent" readonly autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">图片地址</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dialogPath" id="dialogPath" readonly autocomplete="off" class="layui-input">
+                </div>
+            </div>
 
+            <div class="layui-form-item">
+                <label class="layui-form-label">选择操作</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="selectedOperation" value="确认" title="确认" >
+                    <input type="radio" name="selectedOperation" value="取消" title="取消">
+                    <input type="radio" name="selectedOperation" value="其它" title="其它" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">当前图片</label>
+                <img src="https://www.51shebao.com/201906061201/statics/output/images/index/13.png">
+            </div>
+        </form>
     </script>
     <%--编辑对话框配置起点--%>
     <script>
@@ -71,8 +103,7 @@
                                 cancel: function (index, layro) {
                                     return false;
                                 },
-                                content:
-
+                                content: $('#edit-form').html(),
                             });
                         }
                     })

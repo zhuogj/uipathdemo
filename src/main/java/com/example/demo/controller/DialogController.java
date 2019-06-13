@@ -47,7 +47,7 @@ public class DialogController {
     public String show(Model model){
         List<DialogInfo> dialogList = dialogService.getDialogList();
         model.addAttribute("list",dialogList);
-        return "dialog_detail";
+        return "dialog_test1";
     }
 
     /**
