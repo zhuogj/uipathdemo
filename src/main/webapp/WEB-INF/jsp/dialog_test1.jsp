@@ -42,9 +42,9 @@
     </script>
     <%--编辑对话框配置起点--%>
     <script>
-        layui.use(['layer','table','form'], function () {
+        layui.use(['layer', 'table', 'form','element'], function () {
             var layer = layui.layer,
-            $ = layui.jquery
+                $ = layui.jquery
                 , form = layui.form
                 , element = layui.element;
             var table = layui.table;
@@ -75,12 +75,12 @@
                                 cancel: function (index, layro) {
                                     return false;
                                 },
-                                content: '<form class="layui-form" action="/dialog/save" id="editForm" lay-filter="editForm">' +
+                                content: '<form class="layui-form" action="/dialog/save" id="editForm" >' +
                                     '            <div class="layui-form-item">' +
                                     '                <label class="layui-form-label">对话框名称</label>' +
                                     '                <div class="layui-input-block">' +
                                     '                    <input type="text" name="dialogName" id="dialogName" lay-verify="title" autocomplete="off" placeholder="请输入名称" class="layui-input" value="' + mdata.dialogName + '">' +
-                                    '<input type="hidden" value="'+data.id+'" name="id">' +
+                                    '<input type="hidden" value="' + data.id + '" name="id">' +
                                     '                </div>' +
                                     '            </div>' +
                                     '            <div class="layui-form-item">' +
@@ -111,21 +111,22 @@
                                     '<div class="layui-form-item">' +
                                     '<div class="layui-input-block">' +
                                     '<button class="layui-btn" lay-submit lay-filter="quicklySumbit" >立即提交</button>' +
-                                    '<button type="reset" class="layui-btn layui-btn-primary">重置</button>  ' +
+                                    // '<button type="reset" class="layui-btn layui-btn-primary">重置</button>  ' +
                                     '<button id="button" class="layui-btn layui-btn-primary " style="width:86px;height:40px;clear:both;margin:22px 50px;" onclick="layer.close(layer.index)" >取消</button>' +
                                     '</div> ' +
                                     '</div>  ' +
                                     '        </form>'
                             });
                             //表单初始赋值
-                            alert(mdata.selectedOperation);
                             form.val('editForm', {
                                 "selectedOperation": mdata.selectedOperation,
                             });
                             form.render();
                         }
+
                     })
                 }
+
             });
 
             $('.demoTable .layui-btn').on('click', function () {
@@ -133,14 +134,23 @@
                 active[type] ? active[type].call(this) : '';
             });
 
+        });
+    </script>
 
+
+    <%--编辑对话框配置终点--%>
+    <script>
+        layui.use(['layer', 'form'], function () {
+            var layer = layui.layer,
+                $ = layui.jquery,
+                form = layui.form;
             //提交监听事件
             form.on('submit(quicklySumbit)', function (data) {
                 console.log(data);
                 params = data.field;
                 console.log(params.dialogName);
                 //alert(JSON.stringify(params))
-                var formdata = new FormData($("#edit-form")[0]);
+                var formdata = new FormData($("#editForm")[0]);
                 var index = layer.load(1, {
                     shade: [0.5, '#000'] //0.1透明度的白色背景
                 });
@@ -168,59 +178,25 @@
                         // location.reload(); // 页面刷新
                         // return false
                     }
-                });
-                var obj = document.getElementById('closeBtn');
-                obj.addEventListener('click', function cancel() {
-                    CloseWin();
-                });
+                })
 
                 // submit($,params);
                 return false;
             })
-        });
+            var obj = document.getElementById('closeBtn');
+            obj.addEventListener('click', function cancel() {
+                CloseWin();
+            });
+        })
 
-
+        //关闭页面
+        function CloseWin() {
+            parent.location.reload(); // 父页面刷新
+            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+            parent.layer.close(index); //再执行关闭
+        }
     </script>
-    <%--编辑对话框配置终点--%>
-
     <%--提交对话框编辑配置起点--%>
-    <script>
-
-        function submitConfiguration() {
-            // alert("aa");
-            var dialogName = $("#dialogName").val();
-            var id = $("#dialogId").val();
-            var dialogContent = $("#dialogContent").val();
-            var selectedOperation = $("#selectedOperation").val();
-            var dialogPath = $("#dialogPath").val();
-            if (dialogName == null || dialogName == '' || dialogContent == null || dialogContent == '' || selectedOperation == '' || selectedOperation == null) {
-                alert("配置信息不完整！");
-                return false;
-            } else {
-                $.ajax({
-                    url: '/dialog/save',
-                    async: false,
-                    data: {
-                        id: id,
-                        dialogName: dialogName,
-                        dialogContent: dialogContent,
-                        selectedOperation: selectedOperation
-                    },
-                    success: function (data) {
-                        if (data != "success") {
-                            layer.msg('更新数据失败!');
-                        } else {
-                            layer.msg('更新数据成功，即将跳转至列表页', {icon: 1});
-                            window.location.href = "/dialog/getList";
-                        }
-                    },
-                    error: function (e) {
-                        alert("异常，请重试！");
-                    }
-                })
-            }
-        };
-    </script>
 
 
 </head>

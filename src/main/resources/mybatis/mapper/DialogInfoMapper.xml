@@ -73,7 +73,7 @@
       <if test="updateBy !=null and updateBy !=''">
         update_by  = #{updateBy,jdbcType=VARCHAR},
       </if>
-      <if test="updateTime !=null and updateTime !=''">
+      <if test="updateTime !=null ">
         update_time  = #{updateBy,jdbcType=TIMESTAMP},
       </if>
     </set>

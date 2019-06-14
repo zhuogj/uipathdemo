@@ -5,6 +5,7 @@ import com.example.demo.configuration.AipOcrConfig;
 import com.example.demo.model.DialogInfo;
 import com.example.demo.service.DialogService;
 import com.example.demo.service.UploadService;
+import com.google.common.collect.Maps;
 import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,14 +77,17 @@ public class DialogController {
     @ResponseBody
     @RequestMapping("/save")
     public String save(DialogInfo dialogInfo,MultipartFile uploadFile){
-        //传入的上传文件以及对话框的id不为空时，说明此时是要保存编辑的文件
+        Map res = Maps.newHashMap();
         Date date = new Date();
-
+        //传入的上传文件以及对话框的id不为空时，说明此时是要保存编辑的文件
         if (uploadFile==null && dialogInfo.getId()!=null){
             dialogInfo.setUpdateTime(date);
+            System.out.println(dialogInfo);
             dialogService.updateWithModified(dialogInfo);
             logger.info("保存被修改的对话框信息:[{}]",JSONObject.toJSONString(dialogInfo));
-        }else {
+            res.put("res","success");
+//            return JSONObject.toJSONString(ResponseResult.OK());
+        }else if (uploadFile!=null && dialogInfo!=null){
             try {
                 InputStream inputStream = uploadFile.getInputStream();
                 //此处需要调用ocr接口识别图片文字
@@ -102,15 +106,25 @@ public class DialogController {
                 }
                 dialogInfo.setUpdateTime(date);
                 dialogInfo.setCreateTime(date);
-                uploadService.uploadImage(inputStream, "test");
+                //跳过测试上传步骤
+//                uploadService.uploadImage(inputStream, "test");
                 dialogInfo.setDialogPath("C:\\Users\\zhuoguangjing\\Desktop\\image\\dd.jpg");
                 dialogService.insert(dialogInfo);
                 logger.info("插入新创建的对话框信息:[{}]",JSONObject.toJSONString(dialogInfo));
+//                return JSONObject.toJSONString(ResponseResult.OK());
+                res.put("res","success");
 
             }catch (Exception e){
+                logger.error("保存对话框数据出错：",e);
                 e.printStackTrace();
+                res.put("res","error");
+
             }
+        }else {
+            res.put("res","error");
         }
-        return "true";
+        return JSONObject.toJSONString(res).toString();
+//        return JSONObject.toJSONString(ResponseResult.ERROR());
+
     }
 }
