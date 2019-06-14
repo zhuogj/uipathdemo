@@ -45,8 +45,8 @@
     </style>
     <!--border:red solid 2px;-->
     <script>
-        function removeExpress(){
-            window.location.href='/index/hello'
+        function companyInfoDeploy(){
+            window.location.href='/companyInfo/getList'
         }
         function dialogDeploy(){
             window.location.href='/dialog/getList'
@@ -59,7 +59,7 @@
     <div style="padding: 10px;">
         <div class="layui-row layui-col-space15">
             <div class="layui-col-md4">
-                <div id="business1" class="layui-circle" onclick="removeExpress()">
+                <div id="business1" class="layui-circle" onclick="companyInfoDeploy()">
                     文件管理
                 </div>
             </div>

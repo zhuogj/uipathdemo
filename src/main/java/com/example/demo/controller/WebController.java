@@ -27,7 +27,6 @@ public class WebController {
     }
     @RequestMapping("/index1")
     public String index(Model model){
-        System.out.println("index");
         return "index";
     }
     @RequestMapping("/hello")

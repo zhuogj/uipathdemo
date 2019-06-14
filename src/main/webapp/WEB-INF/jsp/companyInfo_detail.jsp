@@ -58,7 +58,7 @@
                         type: "GET",
                         dataType: "json",
                         contentType: "application/json",
-                        url: "/dialog/edit",
+                        url: "/companyInfo/edit",
                         data: {"id": data.id},
                         success: function (res) {
                             var mdata = res.data;
@@ -75,26 +75,38 @@
                                 content:
                                     '<form class="layui-form" action="/dialog/save" id="editForm" >' +
                                     '<div class="layui-form-item">' +
-                                    '<label class="layui-form-label">对话框名称</label>' +
+                                    '<label class="layui-form-label">企业名称</label>' +
                                     '<div class="layui-input-block">' +
-                                    '<input type="text" name="dialogName" id="dialogName" lay-verify="title" autocomplete="off" placeholder="请输入名称" class="layui-input" value="' + mdata.dialogName + '">' +
+                                    '<input type="text" name="companyName" id="dialogName" lay-verify="title" autocomplete="off" placeholder="请输入名称" class="layui-input" value="' + mdata.companyName + '">' +
                                     '<input type="hidden" value="' + data.id + '" name="id">' +
                                     '</div>' +
                                     '</div>' +
                                     '<div class="layui-form-item">' +
-                                    '<label class="layui-form-label">对话框内容</label>' +
+                                    '<label class="layui-form-label">企业编号</label>' +
                                     '<div class="layui-input-block">' +
-                                    '<input type="text" name="dialogContent" id="dialogContent" readonly autocomplete="off" class="layui-input" value="' + mdata.dialogContent + '">\n' +
+                                    '<input type="text" name="licenceNum" id="licenceNum"  autocomplete="off" class="layui-input" value="' + mdata.licenceNum + '">\n' +
                                     '</div>' +
                                     '</div>' +
                                     '<div class="layui-form-item">' +
-                                    '<label class="layui-form-label">图片地址</label>' +
+                                    '<label class="layui-form-label">软件登录账号</label>' +
                                     '<div class="layui-input-block">' +
-                                    '<input type="text" name="dialogPath" id="dialogPath" readonly autocomplete="off" class="layui-input" value="' + mdata.dialogPath + '">\n' +
+                                    '<input type="text" name="accountId" id="accountId"  autocomplete="off" class="layui-input" value="' + mdata.accountId + '">\n' +
                                     '</div>' +
                                     '</div>' +
                                     '<div class="layui-form-item">' +
-                                    '<label class="layui-form-label">选择操作</label>' +
+                                    '<label class="layui-form-label">软件登录密码</label>' +
+                                    '<div class="layui-input-block">' +
+                                    '<input type="text" name="taxPassword" id="taxPassword"  autocomplete="off" class="layui-input" value="' + mdata.taxPassword + '">' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="layui-form-item">' +
+                                    '<label class="layui-form-label">文件本地位置</label>' +
+                                    '<div class="layui-input-block">' +
+                                    '<input type="text" name="clientPath" id="clientPath"  autocomplete="off" class="layui-input" value="' + mdata.clientPath + '">' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="layui-form-item">' +
+                                    '<label class="layui-form-label">文件本地位置</label>' +
                                     '<div class="layui-input-block">' +
                                     '<input type="radio" name="selectedOperation" value="确定" title="确定" checked="" >' +
                                     '<input type="radio" name="selectedOperation" value="取消" title="取消">' +
@@ -338,12 +350,13 @@
                         <tr>
                             <th lay-data="{field:'xuhao', width:75, sort: true, fixed: true}">序号</th>
                             <th lay-data="{field:'id', width:75, sort: true, fixed: true}">id</th>
-                            <th lay-data="{field:'dialogName', width:176, sort: true}">对话框名称</th>
-                            <th lay-data="{field:'dialogContent', width:415}">对话框内容</th>
-                            <th lay-data="{field:'selectedOperation', width:176, sort: true}">已选操作</th>
-                            <th lay-data="{field:'updateTime', width:176, sort: true}">最近修改</th>
-                            <th lay-data="{field:'updateBy', width:176, sort: true}">修改人</th>
-                            <th lay-data="{field:'dialogPath', width:176, sort: true}">文件地址</th>
+                            <th lay-data="{field:'companyName', width:176, sort: true}">企业名称</th>
+                            <th lay-data="{field:'licenceNum', width:176}">企业编号</th>
+                            <th lay-data="{field:'accountId', width:176, sort: true}">软件登录账号</th>
+                            <th lay-data="{field:'taxPassword', width:176, sort: true}">软件登录密码</th>
+                            <th lay-data="{field:'clientPath', width:176, sort: true}">软件本地位置</th>
+                            <th lay-data="{field:'createTime', width:176, sort: true}">创建时间</th>
+                            <th lay-data="{field:'remarks', width:176, sort: true}">备注</th>
                             <th lay-data="{fixed: 'right', width:160, align:'center', toolbar: '#barDemo'}">操作</th>
                         </tr>
                         </thead>
@@ -352,12 +365,13 @@
                             <tr>
                                 <td>${index.count}</td>
                                 <td>${p.id}</td>
-                                <td>${p.dialogName}</td>
-                                <td>${p.dialogContent}</td>
-                                <td>${p.selectedOperation}</td>
-                                <td>${p.updateTime}</td>
-                                <td>${p.updateBy}</td>
-                                <td>${p.dialogPath}</td>
+                                <td>${p.companyName}</td>
+                                <td>${p.licenceNum}</td>
+                                <td>${p.accountId}</td>
+                                <td>${p.taxPassword}</td>
+                                <td>${p.clientPath}</td>
+                                <td>${p.createTime}</td>
+                                <td>${p.remarks}</td>
                             </tr>
                         </c:forEach>
                         </tbody>

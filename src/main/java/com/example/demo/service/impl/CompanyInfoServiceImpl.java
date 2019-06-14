@@ -1,7 +1,9 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.mapper.CompanyInfoMapper;
 import com.example.demo.model.CompanyInfo;
 import com.example.demo.service.CompanyInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,28 +16,30 @@ import java.util.List;
  */
 @Service
 public class CompanyInfoServiceImpl implements CompanyInfoService {
+    @Autowired
+    private CompanyInfoMapper companyInfoMapper;
     @Override
     public List<CompanyInfo> getCompanyInfoList() {
-        return null;
+        return companyInfoMapper.selectAll();
     }
 
     @Override
     public CompanyInfo editCompanyInfo(Integer id) {
-        return null;
+        return companyInfoMapper.selectByPrimaryKey(id);
     }
 
     @Override
     public void deleteCompanyInfo(Integer id) {
-
+        companyInfoMapper.deleteByPrimaryKey(id);
     }
 
     @Override
     public void updateWithModified(CompanyInfo companyInfo) {
-
+        companyInfoMapper.updateByPrimaryKey(companyInfo);
     }
 
     @Override
     public int insert(CompanyInfo companyInfo) {
-        return 0;
+        return companyInfoMapper.insert(companyInfo);
     }
 }
