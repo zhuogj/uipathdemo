@@ -3,9 +3,9 @@ package com.example.demo.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.configuration.AipOcrConfig;
 import com.example.demo.model.DialogInfo;
+import com.example.demo.model.ResponseResult;
 import com.example.demo.service.DialogService;
 import com.example.demo.service.UploadService;
-import com.google.common.collect.Maps;
 import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,60 +41,63 @@ public class DialogController {
 
     /**
      * 获取对话框集合
+     *
      * @param model
      * @return
      */
     @RequestMapping("/getList")
-    public String show(Model model){
+    public String show(Model model) {
         List<DialogInfo> dialogList = dialogService.getDialogList();
-        model.addAttribute("list",dialogList);
-        return "dialog_test1";
+        model.addAttribute("list", dialogList);
+        return "dialog_detail";
     }
 
     /**
      * 跳转至对话框信息编辑页面
+     *
      * @param id
      * @return
      */
     @ResponseBody
     @RequestMapping("/edit")
-    public String edit(Integer id){
+    public String edit(Integer id) {
         DialogInfo dialogInfo = dialogService.editDialog(id);
-        Map<String,Object> map = new HashMap<>();
-        map.put("code",1);
-        map.put("msg","success");
-        map.put("data",dialogInfo);
+        Map<String, Object> map = new HashMap<>();
+        map.put("code", 1);
+        map.put("msg", "success");
+        map.put("data", dialogInfo);
         return JSONObject.toJSON(map).toString();
     }
 
     /**
      * 保存对话框信息
      * todo:获取机器码信息作为创建人和修改人信息
+     *
      * @param dialogInfo
      * @param uploadFile
      * @return
      */
     @ResponseBody
     @RequestMapping("/save")
-    public String save(DialogInfo dialogInfo,MultipartFile uploadFile){
-        Map res = Maps.newHashMap();
+    public String save(DialogInfo dialogInfo, MultipartFile uploadFile) {
+//        Map res = Maps.newHashMap();
         Date date = new Date();
         //传入的上传文件以及对话框的id不为空时，说明此时是要保存编辑的文件
-        if (uploadFile==null && dialogInfo.getId()!=null){
+        if (uploadFile == null && dialogInfo.getId() != null) {
             dialogInfo.setUpdateTime(date);
             System.out.println(dialogInfo);
             dialogService.updateWithModified(dialogInfo);
-            logger.info("保存被修改的对话框信息:[{}]",JSONObject.toJSONString(dialogInfo));
-            res.put("res","success");
-//            return JSONObject.toJSONString(ResponseResult.OK());
-        }else if (uploadFile!=null && dialogInfo!=null){
+            logger.info("保存被修改的对话框信息:[{}]", JSONObject.toJSONString(dialogInfo));
+//            res.put("res","success");
+            return JSONObject.toJSONString(ResponseResult.OK());
+        } else if (uploadFile != null && dialogInfo != null) {
             try {
                 InputStream inputStream = uploadFile.getInputStream();
                 //此处需要调用ocr接口识别图片文字
                 try {
                     org.json.JSONObject jsonObject = AipOcrConfig.getInstance().basicGeneral(inputStream, null);
-                    JSONArray array=null;
-                    if (jsonObject!=null && (array = jsonObject.getJSONArray("words_result"))!=null){
+                    JSONArray array = null;
+                    if (jsonObject != null && (array = jsonObject.getJSONArray("words_result")) != null) {
                         StringBuffer buffer = new StringBuffer();
                         for (int i = 0; i < array.length(); i++) {
                             buffer.append(array.getJSONObject(i).getString("words"));
@@ -110,21 +113,22 @@ public class DialogController {
 //                uploadService.uploadImage(inputStream, "test");
                 dialogInfo.setDialogPath("C:\\Users\\zhuoguangjing\\Desktop\\image\\dd.jpg");
                 dialogService.insert(dialogInfo);
-                logger.info("插入新创建的对话框信息:[{}]",JSONObject.toJSONString(dialogInfo));
-//                return JSONObject.toJSONString(ResponseResult.OK());
-                res.put("res","success");
+                logger.info("插入新创建的对话框信息:[{}]", JSONObject.toJSONString(dialogInfo));
+                return JSONObject.toJSONString(ResponseResult.OK());
+//                res.put("res","success");
 
-            }catch (Exception e){
-                logger.error("保存对话框数据出错：",e);
+            } catch (Exception e) {
+                logger.error("保存对话框数据出错：", e);
                 e.printStackTrace();
-                res.put("res","error");
+//                res.put("res","error");
 
             }
-        }else {
-            res.put("res","error");
         }
-        return JSONObject.toJSONString(res).toString();
-//        return JSONObject.toJSONString(ResponseResult.ERROR());
+//        }else {
+//            res.put("res","error");
+//        }
+//        return JSONObject.toJSONString(res).toString();
+        return JSONObject.toJSONString(ResponseResult.ERROR());
 
     }
 }
