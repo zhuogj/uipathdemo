@@ -51,10 +51,25 @@
             //监听工具条
             table.on('tool(demo)', function (obj) {
                 var data = obj.data;
-                if (obj.event === 'del') {
+                if (obj.event === 'delete') {
                     layer.confirm('真的删除行么', function (index) {
                         obj.del();
                         layer.close(index);
+                        $.ajax({
+                            type: "GET",
+                            dataType: "json",
+                            contentType: "application/json",
+                            url: "/dialog/delete",
+                            data: {"id": data.id},
+                            success: function (res) {
+                                if (res.code==1){
+                                    layer.close(index);
+                                } else {
+                                    layer.alert("删除异常，请重试！");
+                                }
+
+                            }
+                        })
                     });
                 } else if (obj.event === 'edit') {
                     $.ajax({
@@ -112,10 +127,11 @@
                                     '<div class="layui-input-block">' +
                                     '<button class="layui-btn" lay-submit lay-filter="quicklySumbit" >立即提交</button>' +
                                     // '<button type="reset" class="layui-btn layui-btn-primary">重置</button>  ' +
-                                    '<button id="button" class="layui-btn layui-btn-primary " style="width:86px;height:40px;clear:both;margin:22px 50px;" onclick="layer.close(layer.index)" >取消</button>' +
                                     '</div> ' +
                                     '</div>  ' +
                                     '        </form>'
+                                    +'<button id="button" class="layui-btn layui-btn-primary " style="width:86px;height:40px;clear:both;margin:22px 50px;" onclick="layer.close(layer.index)" >取消</button></div>'
+
                             });
                             //表单初始赋值
                             form.val('editForm', {
@@ -182,13 +198,14 @@
 
                 // submit($,params);
                 return false;
-            })
-            var obj = document.getElementById('closeBtn');
-            obj.addEventListener('click', function cancel() {
-                CloseWin();
             });
-        })
 
+        });
+        var obj = $("#cancelButton");
+        // var obj = document.getElementById('cancelButton');
+        obj.addEventListener('click', function cancel() {
+            CloseWin();
+        });
         //关闭页面
         function CloseWin() {
             parent.location.reload(); // 父页面刷新
@@ -239,7 +256,7 @@
                 </div>
 
                 <script type="text/html" id="barDemo">
-                    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
                     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit">编辑</a>
                 </script>
                 <div class="input">

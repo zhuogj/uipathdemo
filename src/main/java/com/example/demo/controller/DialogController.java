@@ -110,25 +110,26 @@ public class DialogController {
                 dialogInfo.setUpdateTime(date);
                 dialogInfo.setCreateTime(date);
                 //跳过测试上传步骤
-//                uploadService.uploadImage(inputStream, "test");
                 dialogInfo.setDialogPath("C:\\Users\\zhuoguangjing\\Desktop\\image\\dd.jpg");
                 dialogService.insert(dialogInfo);
                 logger.info("插入新创建的对话框信息:[{}]", JSONObject.toJSONString(dialogInfo));
                 return JSONObject.toJSONString(ResponseResult.OK());
-//                res.put("res","success");
 
             } catch (Exception e) {
                 logger.error("保存对话框数据出错：", e);
                 e.printStackTrace();
-//                res.put("res","error");
 
             }
         }
-//        }else {
-//            res.put("res","error");
-//        }
-//        return JSONObject.toJSONString(res).toString();
         return JSONObject.toJSONString(ResponseResult.ERROR());
-
+    }
+    @ResponseBody
+    @RequestMapping("/delete")
+    public String delete(Integer id){
+        if (id!=null){
+            dialogService.deleteDialog(id);
+            return JSONObject.toJSONString(ResponseResult.OK());
+        }
+        return JSONObject.toJSONString(ResponseResult.ERROR());
     }
 }

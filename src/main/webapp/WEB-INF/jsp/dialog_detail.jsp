@@ -110,10 +110,10 @@
                                     '<div class="layui-input-block">' +
                                     '<button class="layui-btn" lay-submit lay-filter="quicklySumbit" >立即提交</button>' +
                                     // '<button type="reset" class="layui-btn layui-btn-primary">重置</button>  ' +
-                                    '<button id="button" class="layui-btn layui-btn-primary " style="width:86px;height:40px;clear:both;margin:22px 50px;" onclick="layer.close(layer.index)" >取消</button>' +
                                     '</div> ' +
                                     '</div>  ' +
-                                    '</form>'
+                                    '</form>' +
+                                    '<button id="button" class="layui-btn layui-btn-primary " style="width:86px;height:40px;clear:both;margin:22px 50px;" onclick="layer.close(layer.index)" >取消</button>'
                             });
                             //表单初始赋值
                             form.val('editForm', {
@@ -190,10 +190,11 @@
                         '<div class="layui-input-block">' +
                         '<button class="layui-btn" lay-submit lay-filter="save" >立即提交</button>' +
                         '<button type="reset" class="layui-btn layui-btn-primary">重置</button>  ' +
-                        '<button id="button" class="layui-btn layui-btn-primary " style="width:86px;height:40px;clear:both;margin:22px 50px;" onclick="layer.close(layer.index)" >取消</button>' +
                         '</div> ' +
                         '</div>  ' +
                         '</form>'
+                        +'<button id="button" class="layui-btn layui-btn-primary " style="width:86px;height:40px;clear:both;margin:22px 50px;" onclick="layer.close(layer.index)" >取消</button></div>'
+
                 });
                 //重新渲染表单，否则下拉框，单选框等无法加载出来
                 form.render();
@@ -304,7 +305,7 @@
                         // location.reload(); // 页面刷新
                         // return false
                     }
-                })
+                });
 
                 // submit($,params);
                 return false;
