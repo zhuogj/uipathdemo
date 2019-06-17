@@ -94,7 +94,7 @@
                                     '            <div class="layui-form-item">' +
                                     '                <label class="layui-form-label">对话框名称</label>' +
                                     '                <div class="layui-input-block">' +
-                                    '                    <input type="text" name="dialogName" id="dialogName" lay-verify="title" autocomplete="off" placeholder="请输入名称" class="layui-input" value="' + mdata.dialogName + '">' +
+                                    '                    <input type="text" name="dialogName" id="dialogName" autocomplete="off" placeholder="请输入名称" class="layui-input" value="' + mdata.dialogName + '">' +
                                     '<input type="hidden" value="' + data.id + '" name="id">' +
                                     '                </div>' +
                                     '            </div>' +

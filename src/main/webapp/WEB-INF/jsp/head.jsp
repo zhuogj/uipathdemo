@@ -22,9 +22,9 @@
         }
         #user{
             float:right;
-            width:318px;
-            margin-top:75px;
-            margin-right:40px;
+            width:200px;
+            margin-top:60px;
+            margin-right:30px;
         }
 
     </style>
@@ -35,8 +35,7 @@
         <img src="images/logo.png">
     </div>
     <div id="user">
-        用户：XXX，你好，欢迎使用Uipath配置系统  &nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="/index">返回首页</a>
+        <a style="font-size: 16px" href="/index/index1">返回首页</a>
     </div>
 
 </div>

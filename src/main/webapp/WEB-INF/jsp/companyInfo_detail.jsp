@@ -52,6 +52,21 @@
                     layer.confirm('真的删除行么', function (index) {
                         obj.del();
                         layer.close(index);
+                        $.ajax({
+                            type: "GET",
+                            dataType: "json",
+                            contentType: "application/json",
+                            url: "/companyInfo/delete",
+                            data: {"id": data.id},
+                            success: function (res) {
+                                if (res.code==1){
+                                    layer.close(index);
+                                } else {
+                                    layer.alert("删除异常，请重试！");
+                                }
+
+                            }
+                        })
                     });
                 } else if (obj.event === 'edit') {
                     $.ajax({
@@ -62,22 +77,21 @@
                         data: {"id": data.id},
                         success: function (res) {
                             var mdata = res.data;
-                            var dialogPath = mdata.dialogPath;
                             layer.open({
                                 type: 1,
-                                title: "配置图片信息",
+                                title: "配置税务软件信息",
                                 skin: 'layui-layer-rim',
-                                area: ['800px', '800px'],
+                                area: ['90%', '90%'],
                                 zIndex: 1000,
                                 cancel: function (index, layro) {
                                     return false;
                                 },
                                 content:
-                                    '<form class="layui-form" action="/dialog/save" id="editForm" >' +
+                                    '<form class="layui-form" action="/companyInfo/save" id="editForm" >' +
                                     '<div class="layui-form-item">' +
                                     '<label class="layui-form-label">企业名称</label>' +
                                     '<div class="layui-input-block">' +
-                                    '<input type="text" name="companyName" id="dialogName" lay-verify="title" autocomplete="off" placeholder="请输入名称" class="layui-input" value="' + mdata.companyName + '">' +
+                                    '<input type="text" name="companyName" id="companyName" lay-verify="title" autocomplete="off" placeholder="请输入名称" class="layui-input" value="' + mdata.companyName + '">' +
                                     '<input type="hidden" value="' + data.id + '" name="id">' +
                                     '</div>' +
                                     '</div>' +
@@ -88,35 +102,28 @@
                                     '</div>' +
                                     '</div>' +
                                     '<div class="layui-form-item">' +
-                                    '<label class="layui-form-label">软件登录账号</label>' +
+                                    '<label class="layui-form-label">登录账号</label>' +
                                     '<div class="layui-input-block">' +
                                     '<input type="text" name="accountId" id="accountId"  autocomplete="off" class="layui-input" value="' + mdata.accountId + '">\n' +
                                     '</div>' +
                                     '</div>' +
                                     '<div class="layui-form-item">' +
-                                    '<label class="layui-form-label">软件登录密码</label>' +
+                                    '<label class="layui-form-label">登录密码</label>' +
                                     '<div class="layui-input-block">' +
                                     '<input type="text" name="taxPassword" id="taxPassword"  autocomplete="off" class="layui-input" value="' + mdata.taxPassword + '">' +
                                     '</div>' +
                                     '</div>' +
                                     '<div class="layui-form-item">' +
-                                    '<label class="layui-form-label">文件本地位置</label>' +
+                                    '<label class="layui-form-label">软件位置</label>' +
                                     '<div class="layui-input-block">' +
                                     '<input type="text" name="clientPath" id="clientPath"  autocomplete="off" class="layui-input" value="' + mdata.clientPath + '">' +
                                     '</div>' +
                                     '</div>' +
                                     '<div class="layui-form-item">' +
-                                    '<label class="layui-form-label">文件本地位置</label>' +
+                                    '<label class="layui-form-label">备注</label>' +
                                     '<div class="layui-input-block">' +
-                                    '<input type="radio" name="selectedOperation" value="确定" title="确定" checked="" >' +
-                                    '<input type="radio" name="selectedOperation" value="取消" title="取消">' +
-                                    '<input type="radio" name="selectedOperation" value="其它" title="其它" >' +
+                                    '<input type="text" name="remarks" id="remarks"  autocomplete="off" class="layui-input" value="' + mdata.remarks + '">' +
                                     '</div>' +
-                                    '</div>' +
-                                    '<div class="layui-form-item">' +
-                                    '<label class="layui-form-label">当前图片</label>' +
-                                    //展现图片的地方，先用固定图片代替
-                                    '<img src="https://www.51shebao.com/201906061201/statics/output/images/index/13.png">' +
                                     '</div>' +
                                     '<div class="layui-form-item">' +
                                     '<div class="layui-input-block">' +
@@ -147,18 +154,7 @@
     <%--编辑对话框配置终点--%>
 
 
-    <script id="upload_file_dialog" type="text/html">
-        <div class="layui-form-item">
-            <div class="layui-form-item">
-                <label class="layui-form-label">照片</label>
-                <div class="layui-input-block">
-                    <input type="file" name="uploadFile" required value="" style="width: 240px" lay-verify="required"
-                           autocomplete="off" class="layui-input">
-                </div>
-            </div>
-        </div>
-    </script>
-    <%--文件上传表单终点--%>
+
 
     <%--新增对话框配置起点--%>
     <script>
@@ -170,37 +166,54 @@
                     , element = layui.element;
                 layer.open({
                     type: 1,
-                    title: "配置图片信息",
+                    title: "配置税务软件信息",
                     skin: 'layui-layer-rim',
-                    area: ['800px', '800px'],
+                    area: ['90%', '90%'],
                     zIndex: 1000,
                     cancel: function (index, layro) {
                         return false;
                     },
                     content:
-                        '<form class="layui-form" action="/dialog/save" enctype="multipart/form-data" id="filetb">' +
+                        '<form class="layui-form" action="/companyInfo/save" enctype="multipart/form-data" id="filetb">' +
                         '<div class="layui-form-item">' +
-                        '<label class="layui-form-label">对话框名称</label>' +
+                        '<label class="layui-form-label" >企业名称</label>' +
                         '<div class="layui-input-block">' +
-                        '<input type="text" name="dialogName" required lay-verify="required" placeholder="请输入对话框名称" autocomplete="off" class="layui-input"> ' +
-                        '</div> ' +
+                        '<input type="text" name="companyName" id="companyName" lay-verify="required" required autocomplete="off" placeholder="请输入名称" class="layui-input" >' +
+                        '</div>' +
                         '</div>' +
                         '<div class="layui-form-item">' +
-                        '<div class="layui-form-item" pane="">' +
-                        '    <label class="layui-form-label">选择操作</label>' +
-                        '    <div class="layui-input-block">' +
-                        '      <input type="radio" name="selectedOperation" value="确定" title="确定" checked>' +
-                        '      <input type="radio" name="selectedOperation" value="取消" title="取消">' +
-                        '      <input type="radio" name="selectedOperation" value="其它" title="其它" >' +
-                        '    </div>\n' +
-                        '  </div>' +
+                        '<label class="layui-form-label">企业编号</label>' +
+                        '<div class="layui-input-block">' +
+                        '<input type="text" name="licenceNum" id="licenceNum" lay-verify="required" placeholder="请输入企业编号" autocomplete="off" class="layui-input" >' +
                         '</div>' +
-
-                        $('#upload_file_dialog').html() +
-
+                        '</div>' +
+                        '<div class="layui-form-item" >' +
+                        '<label class="layui-form-label" >登录账号</label>' +
+                        '<div class="layui-input-block">' +
+                        '<input type="text" name="accountId" id="accountId" lay-verify="required" placeholder="请输入登录账号"  autocomplete="off" class="layui-input" >' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="layui-form-item">' +
+                        '<label class="layui-form-label">登录密码</label>' +
+                        '<div class="layui-input-block">' +
+                        '<input type="text" name="taxPassword" id="taxPassword" lay-verify="required" placeholder="请输入密码"  autocomplete="off" class="layui-input" >' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="layui-form-item">' +
+                        '<label class="layui-form-label">软件位置</label>' +
+                        '<div class="layui-input-block">' +
+                        '<input type="text" name="clientPath" id="clientPath" placeholder="请输入软件本地位置" lay-verify="required" autocomplete="off" class="layui-input">' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="layui-form-item">' +
+                        '<label class="layui-form-label">备注</label>' +
+                        '<div class="layui-input-block">' +
+                        '<input type="text" name="remarks" id="remarks"  autocomplete="off" class="layui-input" >' +
+                        '</div>' +
+                        '</div>' +
                         '<div class="layui-form-item">' +
                         '<div class="layui-input-block">' +
-                        '<button class="layui-btn" lay-submit lay-filter="save" >立即提交</button>' +
+                        '<button class="layui-btn" lay-submit lay-filter="quicklySumbit" >立即提交</button>' +
                         '<button type="reset" class="layui-btn layui-btn-primary">重置</button>  ' +
                         '</div> ' +
                         '</div>  ' +
@@ -226,35 +239,41 @@
             form.on('submit(quicklySumbit)', function (data) {
                 console.log(data);
                 params = data.field;
-                console.log(params.dialogName);
                 //alert(JSON.stringify(params))
                 var formdata = new FormData($("#editForm")[0]);
                 var index = layer.load(1, {
                     shade: [0.5, '#000'] //0.1透明度的白色背景
                 });
                 $.ajax({
-                    url: "/dialog/save",
+                    url: "/companyInfo/save",
                     method: 'post',
                     data: formdata,
                     dataType: 'JSON',
                     processData: false,
                     contentType: false,
                     success: function (res) {
-                        // console.log(333);
                         layer.close(index);
-                        layer.alert('保存成功', {
-                            skin: 'layui-layer-molv' //样式类名
-                            , closeBtn: 0
-                        }, function () {
-                            location.reload();
-                        });
-                        // location.reload(); // 页面刷新
-                        return false
+                        var resdata = eval(res);
+                        if (resdata.msg =='success'){
+                            layer.alert('保存成功', {
+                                skin: 'layui-layer-molv' //样式类名
+                                , closeBtn: 0
+                            }, function () {
+                                location.reload();
+                            });
+                        }else {
+                            layer.alert('保存失败！', {
+                                skin: 'layui-layer-molv' //样式类名
+                                , closeBtn: 0
+                            }, function () {
+                                location.reload();
+                            });
+                        }
+                        return false;
                     },
                     error: function (res) {
-                        console.log(res.code);
-                        // location.reload(); // 页面刷新
-                        // return false
+                        location.reload(); // 页面刷新
+                        return false;
                     }
                 })
 
@@ -287,37 +306,41 @@
             form.on('submit(save)', function (data) {
                 console.log(data);
                 params = data.field;
-                console.log(params.dialogName);
                 //alert(JSON.stringify(params))
                 var formdata = new FormData($("#filetb")[0]);
                 var index = layer.load(1, {
                     shade: [0.5, '#000'] //0.1透明度的白色背景
                 });
                 $.ajax({
-                    url: "/dialog/save",
+                    url: "/companyInfo/save",
                     method: 'post',
                     data: formdata,
                     dataType: 'JSON',
                     processData: false,
                     contentType: false,
                     success: function (res) {
-                        // console.log(333);
                         layer.close(index);
-
-                        //todo:根据res返回的结果提示成功还是失败，目前都提示成功
-                        layer.alert('上传成功', {
-                            skin: 'layui-layer-molv' //样式类名
-                            , closeBtn: 0
-                        }, function () {
-                            location.reload();
-                        });
-                        // location.reload(); // 页面刷新
-                        return false
+                        var resdata = eval(res);
+                        if (resdata.msg =='success'){
+                            layer.alert('保存成功', {
+                                skin: 'layui-layer-molv' //样式类名
+                                , closeBtn: 0
+                            }, function () {
+                                location.reload();
+                            });
+                        }else {
+                            layer.alert(resdata.code+resdata.msg, {
+                                skin: 'layui-layer-molv' //样式类名
+                                , closeBtn: 0
+                            }, function () {
+                                location.reload();
+                            });
+                        }
+                        return false;
                     },
                     error: function (res) {
-                        console.log(res.code);
-                        // location.reload(); // 页面刷新
-                        // return false
+                        location.reload(); // 页面刷新
+                        return false;
                     }
                 });
 

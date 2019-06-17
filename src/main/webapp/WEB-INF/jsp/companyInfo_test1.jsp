@@ -52,74 +52,64 @@
                     layer.confirm('真的删除行么', function (index) {
                         obj.del();
                         layer.close(index);
-                        $.ajax({
-                            type: "GET",
-                            dataType: "json",
-                            contentType: "application/json",
-                            url: "/dialog/delete",
-                            data: {"id": data.id},
-                            success: function (res) {
-                                if (res.code==1){
-                                    layer.close(index);
-                                } else {
-                                    layer.alert("删除异常，请重试！");
-                                }
-
-                            }
-                        })
                     });
                 } else if (obj.event === 'edit') {
                     $.ajax({
                         type: "GET",
                         dataType: "json",
                         contentType: "application/json",
-                        url: "/dialog/edit",
+                        url: "/companyInfo/edit",
                         data: {"id": data.id},
                         success: function (res) {
                             var mdata = res.data;
                             var dialogPath = mdata.dialogPath;
                             layer.open({
                                 type: 1,
-                                title: "配置图片信息",
+                                title: "配置税务软件信息",
                                 skin: 'layui-layer-rim',
-                                area: ['800px', '800px'],
+                                area: ['90%', '90%'],
                                 zIndex: 1000,
                                 cancel: function (index, layro) {
                                     return false;
                                 },
                                 content:
-                                    '<form class="layui-form" action="/dialog/save" id="editForm" >' +
+                                    '<form class="layui-form" action="/companyInfo/save" id="editForm" >' +
                                     '<div class="layui-form-item">' +
-                                    '<label class="layui-form-label">对话框名称</label>' +
+                                    '<label class="layui-form-label">企业名称</label>' +
                                     '<div class="layui-input-block">' +
-                                    '<input type="text" name="dialogName" id="dialogName" lay-verify="title" autocomplete="off" placeholder="请输入名称" class="layui-input" value="' + mdata.dialogName + '">' +
+                                    '<input type="text" name="companyName" id="dialogName" lay-verify="title" autocomplete="off" placeholder="请输入名称" class="layui-input" value="' + mdata.companyName + '">' +
                                     '<input type="hidden" value="' + data.id + '" name="id">' +
                                     '</div>' +
                                     '</div>' +
                                     '<div class="layui-form-item">' +
-                                    '<label class="layui-form-label">对话框内容</label>' +
+                                    '<label class="layui-form-label">企业编号</label>' +
                                     '<div class="layui-input-block">' +
-                                    '<input type="text" name="dialogContent" id="dialogContent" readonly autocomplete="off" class="layui-input" value="' + mdata.dialogContent + '">\n' +
+                                    '<input type="text" name="licenceNum" id="licenceNum"  autocomplete="off" class="layui-input" value="' + mdata.licenceNum + '">\n' +
                                     '</div>' +
                                     '</div>' +
                                     '<div class="layui-form-item">' +
-                                    '<label class="layui-form-label">图片地址</label>' +
+                                    '<label class="layui-form-label">登录账号</label>' +
                                     '<div class="layui-input-block">' +
-                                    '<input type="text" name="dialogPath" id="dialogPath" readonly autocomplete="off" class="layui-input" value="' + mdata.dialogPath + '">\n' +
+                                    '<input type="text" name="accountId" id="accountId"  autocomplete="off" class="layui-input" value="' + mdata.accountId + '">\n' +
                                     '</div>' +
                                     '</div>' +
                                     '<div class="layui-form-item">' +
-                                    '<label class="layui-form-label">选择操作</label>' +
+                                    '<label class="layui-form-label">登录密码</label>' +
                                     '<div class="layui-input-block">' +
-                                    '<input type="radio" name="selectedOperation" value="确定" title="确定" checked="" >' +
-                                    '<input type="radio" name="selectedOperation" value="取消" title="取消">' +
-                                    '<input type="radio" name="selectedOperation" value="其它" title="其它" >' +
+                                    '<input type="text" name="taxPassword" id="taxPassword"  autocomplete="off" class="layui-input" value="' + mdata.taxPassword + '">' +
                                     '</div>' +
                                     '</div>' +
                                     '<div class="layui-form-item">' +
-                                    '<label class="layui-form-label">当前图片</label>' +
-                                    //展现图片的地方，先用固定图片代替
-                                    '<img src="https://www.51shebao.com/201906061201/statics/output/images/index/13.png">' +
+                                    '<label class="layui-form-label">软件位置</label>' +
+                                    '<div class="layui-input-block">' +
+                                    '<input type="text" name="clientPath" id="clientPath"  autocomplete="off" class="layui-input" value="' + mdata.clientPath + '">' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="layui-form-item">' +
+                                    '<label class="layui-form-label">备注</label>' +
+                                    '<div class="layui-input-block">' +
+                                    '<input type="text" name="remarks" id="remarks"  autocomplete="off" class="layui-input" value="' + mdata.remarks + '">' +
+                                    '</div>' +
                                     '</div>' +
                                     '<div class="layui-form-item">' +
                                     '<div class="layui-input-block">' +
@@ -173,7 +163,7 @@
                     , element = layui.element;
                 layer.open({
                     type: 1,
-                    title: "配置图片信息",
+                    title: "配置税务软件信息",
                     skin: 'layui-layer-rim',
                     area: ['90%', '90%'],
                     zIndex: 1000,
@@ -181,26 +171,43 @@
                         return false;
                     },
                     content:
-                        '<form class="layui-form" action="/dialog/save" enctype="multipart/form-data" id="filetb">' +
+                        '<form class="layui-form" action="/companyInfo/save"  id="filetb">' +
                         '<div class="layui-form-item">' +
-                        '<label class="layui-form-label">对话框名称</label>' +
+                        '<label class="layui-form-label" >企业名称</label>' +
                         '<div class="layui-input-block">' +
-                        '<input type="text" name="dialogName" required lay-verify="required" placeholder="请输入对话框名称" autocomplete="off" class="layui-input"> ' +
-                        '</div> ' +
+                        '<input type="text" name="companyName" id="companyName"  required lay-verify="required" autocomplete="off" placeholder="请输入名称" class="layui-input" >' +
+                        '</div>' +
                         '</div>' +
                         '<div class="layui-form-item">' +
-                        '<div class="layui-form-item" pane="">' +
-                        '    <label class="layui-form-label">选择操作</label>' +
-                        '    <div class="layui-input-block">' +
-                        '      <input type="radio" name="selectedOperation" value="确定" title="确定" checked>' +
-                        '      <input type="radio" name="selectedOperation" value="取消" title="取消">' +
-                        '      <input type="radio" name="selectedOperation" value="其它" title="其它" >' +
-                        '    </div>\n' +
-                        '  </div>' +
+                        '<label class="layui-form-label">企业编号</label>' +
+                        '<div class="layui-input-block">' +
+                        '<input type="text" name="licenceNum" id="licenceNum" placeholder="请输入企业编号" autocomplete="off" class="layui-input" >' +
                         '</div>' +
-
-                        $('#upload_file_dialog').html() +
-
+                        '</div>' +
+                        '<div class="layui-form-item" >' +
+                        '<label class="layui-form-label" >登录账号</label>' +
+                        '<div class="layui-input-block">' +
+                        '<input type="text" name="accountId" id="accountId" placeholder="请输入登录账号"  autocomplete="off" class="layui-input" >' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="layui-form-item">' +
+                        '<label class="layui-form-label">登录密码</label>' +
+                        '<div class="layui-input-block">' +
+                        '<input type="text" name="taxPassword" id="taxPassword"  placeholder="请输入密码"  autocomplete="off" class="layui-input" >' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="layui-form-item">' +
+                        '<label class="layui-form-label">软件位置</label>' +
+                        '<div class="layui-input-block">' +
+                        '<input type="text" name="clientPath" id="clientPath" placeholder="请输入软件本地位置" required autocomplete="off" class="layui-input">' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="layui-form-item">' +
+                        '<label class="layui-form-label">备注</label>' +
+                        '<div class="layui-input-block">' +
+                        '<input type="text" name="remarks" id="remarks"  autocomplete="off" class="layui-input" >' +
+                        '</div>' +
+                        '</div>' +
                         '<div class="layui-form-item">' +
                         '<div class="layui-input-block">' +
                         '<button class="layui-btn" lay-submit lay-filter="save" >立即提交</button>' +
@@ -229,22 +236,23 @@
             form.on('submit(quicklySumbit)', function (data) {
                 console.log(data);
                 params = data.field;
-                console.log(params.dialogName);
                 //alert(JSON.stringify(params))
                 var formdata = new FormData($("#editForm")[0]);
                 var index = layer.load(1, {
                     shade: [0.5, '#000'] //0.1透明度的白色背景
                 });
                 $.ajax({
-                    url: "/dialog/save",
+                    url: "/companyInfo/save",
                     method: 'post',
                     data: formdata,
                     dataType: 'JSON',
                     processData: false,
                     contentType: false,
                     success: function (res) {
+                        // console.log(333);
                         layer.close(index);
                         var resdata = eval(res);
+                        layer.alert(resdata.code);
                         if (resdata.msg =='success'){
                             layer.alert('保存成功', {
                                 skin: 'layui-layer-molv' //样式类名
@@ -261,32 +269,21 @@
                             });
                         }
                         return false;
-                        // // console.log(333);
-                        // layer.close(index);
-                        // layer.alert('保存成功', {
-                        //     skin: 'layui-layer-molv' //样式类名
-                        //     , closeBtn: 0
-                        // }, function () {
-                        //     location.reload();
-                        // });
-                        // // location.reload(); // 页面刷新
-                        // return false
                     },
                     error: function (res) {
-                        console.log(res.code);
-                        // location.reload(); // 页面刷新
-                        // return false
+                        location.reload(); // 页面刷新
+                        return false;
                     }
-                })
+                });
 
                 // submit($,params);
                 return false;
-            })
+            });
             var obj = document.getElementById('closeBtn');
             obj.addEventListener('click', function cancel() {
                 CloseWin();
             });
-        })
+        });
 
         //关闭页面
         function CloseWin() {
@@ -308,21 +305,19 @@
             form.on('submit(save)', function (data) {
                 console.log(data);
                 params = data.field;
-                console.log(params.dialogName);
                 //alert(JSON.stringify(params))
                 var formdata = new FormData($("#filetb")[0]);
                 var index = layer.load(1, {
                     shade: [0.5, '#000'] //0.1透明度的白色背景
                 });
                 $.ajax({
-                    url: "/dialog/save",
+                    url: "/companyInfo/save",
                     method: 'post',
                     data: formdata,
                     dataType: 'JSON',
                     processData: false,
                     contentType: false,
                     success: function (res) {
-
                         layer.close(index);
                         var resdata = eval(res);
                         if (resdata.msg =='success'){
@@ -341,19 +336,6 @@
                             });
                         }
                         return false;
-
-                        // // console.log(333);
-                        // layer.close(index);
-                        //
-                        // //todo:根据res返回的结果提示成功还是失败，目前都提示成功
-                        // layer.alert('上传成功', {
-                        //     skin: 'layui-layer-molv' //样式类名
-                        //     , closeBtn: 0
-                        // }, function () {
-                        //     location.reload();
-                        // });
-                        // // location.reload(); // 页面刷新
-                        // return false
                     },
                     error: function (res) {
                         console.log(res.code);
@@ -391,12 +373,13 @@
                         <tr>
                             <th lay-data="{field:'xuhao', width:75, sort: true, fixed: true}">序号</th>
                             <th lay-data="{field:'id', width:75, sort: true, fixed: true}">id</th>
-                            <th lay-data="{field:'dialogName', width:176, sort: true}">对话框名称</th>
-                            <th lay-data="{field:'dialogContent', width:415}">对话框内容</th>
-                            <th lay-data="{field:'selectedOperation', width:176, sort: true}">已选操作</th>
-                            <th lay-data="{field:'updateTime', width:176, sort: true}">最近修改</th>
-                            <th lay-data="{field:'updateBy', width:176, sort: true}">修改人</th>
-                            <th lay-data="{field:'dialogPath', width:176, sort: true}">文件地址</th>
+                            <th lay-data="{field:'companyName', width:176, sort: true}">企业名称</th>
+                            <th lay-data="{field:'licenceNum', width:176}">企业编号</th>
+                            <th lay-data="{field:'accountId', width:176, sort: true}">软件登录账号</th>
+                            <th lay-data="{field:'taxPassword', width:176, sort: true}">软件登录密码</th>
+                            <th lay-data="{field:'clientPath', width:176, sort: true}">软件本地位置</th>
+                            <th lay-data="{field:'createTime', width:176, sort: true}">创建时间</th>
+                            <th lay-data="{field:'remarks', width:176, sort: true}">备注</th>
                             <th lay-data="{fixed: 'right', width:160, align:'center', toolbar: '#barDemo'}">操作</th>
                         </tr>
                         </thead>
@@ -405,12 +388,13 @@
                             <tr>
                                 <td>${index.count}</td>
                                 <td>${p.id}</td>
-                                <td>${p.dialogName}</td>
-                                <td>${p.dialogContent}</td>
-                                <td>${p.selectedOperation}</td>
-                                <td>${p.updateTime}</td>
-                                <td>${p.updateBy}</td>
-                                <td>${p.dialogPath}</td>
+                                <td>${p.companyName}</td>
+                                <td>${p.licenceNum}</td>
+                                <td>${p.accountId}</td>
+                                <td>${p.taxPassword}</td>
+                                <td>${p.clientPath}</td>
+                                <td>${p.createTime}</td>
+                                <td>${p.remarks}</td>
                             </tr>
                         </c:forEach>
                         </tbody>

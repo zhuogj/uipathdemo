@@ -29,13 +29,15 @@ public class CompanyInfoController {
     private static Logger logger = LoggerFactory.getLogger(CompanyInfoController.class);
     @Autowired
     private CompanyInfoService companyInfoService;
+
     @RequestMapping("/getList")
-    public String getList(Model model){
+    public String getList(Model model) {
 
         List<CompanyInfo> companyInfoList = companyInfoService.getCompanyInfoList();
-        model.addAttribute("list",companyInfoList);
+        model.addAttribute("list", companyInfoList);
         return "companyInfo_detail";
     }
+
     /**
      * 跳转至对话框信息编辑页面
      *
@@ -65,24 +67,29 @@ public class CompanyInfoController {
     public String save(CompanyInfo companyInfo) {
 //        Map res = Maps.newHashMap();
         Date date = new Date();
-        //传入的上传文件以及对话框的id不为空时，说明此时是要保存编辑的文件
-        if ( companyInfo.getId() != null) {
-            companyInfoService.updateWithModified(companyInfo);
-            logger.info("保存被修改的对话框信息:[{}]", JSONObject.toJSONString(companyInfo));
+        try {
+            //传入的上传文件以及对话框的id不为空时，说明此时是要保存编辑的文件
+            if (companyInfo.getId() != null) {
+                companyInfoService.updateWithModified(companyInfo);
+                logger.info("保存被修改的对话框信息:[{}]", JSONObject.toJSONString(companyInfo));
 //            res.put("res","success");
-            return JSONObject.toJSONString(ResponseResult.OK());
-        } else  {
+                return JSONObject.toJSONString(ResponseResult.OK());
+            } else {
                 companyInfo.setCreateTime(date);
                 companyInfoService.insert(companyInfo);
                 logger.info("插入新创建的对话框信息:[{}]", JSONObject.toJSONString(companyInfo));
                 return JSONObject.toJSONString(ResponseResult.OK());
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return JSONObject.toJSONString(ResponseResult.ERROR());
         }
+    }
 
     @ResponseBody
     @RequestMapping("/delete")
-    public String delete(Integer id){
-        if (id!=null){
+    public String delete(Integer id) {
+        if (id != null) {
             companyInfoService.deleteCompanyInfo(id);
             return JSONObject.toJSONString(ResponseResult.OK());
         }
