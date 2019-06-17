@@ -171,7 +171,7 @@
                         return false;
                     },
                     content:
-                        '<form class="layui-form" action="/companyInfo/save"  id="filetb">' +
+                        '<form class="layui-form" action="/companyInfo/save" enctype="multipart/form-data"  id="filetb">' +
                         '<div class="layui-form-item">' +
                         '<label class="layui-form-label" >企业名称</label>' +
                         '<div class="layui-input-block">' +
@@ -199,7 +199,7 @@
                         '<div class="layui-form-item">' +
                         '<label class="layui-form-label">软件位置</label>' +
                         '<div class="layui-input-block">' +
-                        '<input type="text" name="clientPath" id="clientPath" placeholder="请输入软件本地位置" required autocomplete="off" class="layui-input">' +
+                        '<input type="file"  name="file" id="img" style="width: 300px" onchange="getPath()" placeholder="请输入软件本地位置"  autocomplete="off" class="layui-input-file">' +
                         '</div>' +
                         '</div>' +
                         '<div class="layui-form-item">' +
@@ -222,10 +222,13 @@
                 form.render();
 
             });
-
         };
 
+        function getPath() {
+
+        }
     </script>
+
     <%--提交对话框新增起点--%>
     <script>
         layui.use(['layer', 'form'], function () {
@@ -290,7 +293,9 @@
             parent.location.reload(); // 父页面刷新
             var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
             parent.layer.close(index); //再执行关闭
-        }
+        };
+
+
     </script>
     <%--提交对话框配置编辑终点--%>
 

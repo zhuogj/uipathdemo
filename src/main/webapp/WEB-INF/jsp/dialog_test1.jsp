@@ -194,7 +194,7 @@
                         // location.reload(); // 页面刷新
                         // return false
                     }
-                })
+                });
 
                 // submit($,params);
                 return false;

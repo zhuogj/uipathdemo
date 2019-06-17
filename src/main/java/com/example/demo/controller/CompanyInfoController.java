@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -35,7 +36,7 @@ public class CompanyInfoController {
 
         List<CompanyInfo> companyInfoList = companyInfoService.getCompanyInfoList();
         model.addAttribute("list", companyInfoList);
-        return "companyInfo_detail";
+        return "companyInfo_test1";
     }
 
     /**
@@ -64,7 +65,7 @@ public class CompanyInfoController {
      */
     @ResponseBody
     @RequestMapping("/save")
-    public String save(CompanyInfo companyInfo) {
+    public String save(CompanyInfo companyInfo, MultipartFile file) {
 //        Map res = Maps.newHashMap();
         Date date = new Date();
         try {
@@ -76,6 +77,7 @@ public class CompanyInfoController {
                 return JSONObject.toJSONString(ResponseResult.OK());
             } else {
                 companyInfo.setCreateTime(date);
+                companyInfo.setClientPath(file.getOriginalFilename());
                 companyInfoService.insert(companyInfo);
                 logger.info("插入新创建的对话框信息:[{}]", JSONObject.toJSONString(companyInfo));
                 return JSONObject.toJSONString(ResponseResult.OK());
