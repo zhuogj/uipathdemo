@@ -1,12 +1,10 @@
 package com.example.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.example.demo.configuration.AipOcrConfig;
 import com.example.demo.model.DialogInfo;
 import com.example.demo.model.ResponseResult;
 import com.example.demo.service.DialogService;
 import com.example.demo.service.UploadService;
-import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.InputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -52,6 +49,13 @@ public class DialogController {
         return "dialog_detail";
     }
 
+    @RequestMapping("/")
+    public String index(Model model) {
+        model.addAttribute("hello", "dsd");
+        return "test";
+    }
+
+
     /**
      * 跳转至对话框信息编辑页面
      *
@@ -79,34 +83,19 @@ public class DialogController {
      */
     @ResponseBody
     @RequestMapping("/save")
-    public String save(DialogInfo dialogInfo, MultipartFile uploadFile) {
+    public String save(DialogInfo dialogInfo, MultipartFile file) {
 //        Map res = Maps.newHashMap();
         Date date = new Date();
         //传入的上传文件以及对话框的id不为空时，说明此时是要保存编辑的文件
-        if (uploadFile == null && dialogInfo.getId() != null) {
+        if (file == null && dialogInfo.getId() != null) {
             dialogInfo.setUpdateTime(date);
             System.out.println(dialogInfo);
             dialogService.updateWithModified(dialogInfo);
             logger.info("保存被修改的对话框信息:[{}]", JSONObject.toJSONString(dialogInfo));
 //            res.put("res","success");
             return JSONObject.toJSONString(ResponseResult.OK());
-        } else if (uploadFile != null && dialogInfo != null) {
+        } else if (file != null && dialogInfo != null) {
             try {
-                InputStream inputStream = uploadFile.getInputStream();
-                //此处需要调用ocr接口识别图片文字
-                try {
-                    org.json.JSONObject jsonObject = AipOcrConfig.getInstance().basicGeneral(inputStream, null);
-                    JSONArray array = null;
-                    if (jsonObject != null && (array = jsonObject.getJSONArray("words_result")) != null) {
-                        StringBuffer buffer = new StringBuffer();
-                        for (int i = 0; i < array.length(); i++) {
-                            buffer.append(array.getJSONObject(i).getString("words"));
-                        }
-                        dialogInfo.setDialogContent(buffer.toString());
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
                 dialogInfo.setUpdateTime(date);
                 dialogInfo.setCreateTime(date);
                 //跳过测试上传步骤
@@ -123,10 +112,11 @@ public class DialogController {
         }
         return JSONObject.toJSONString(ResponseResult.ERROR());
     }
+
     @ResponseBody
     @RequestMapping("/delete")
-    public String delete(Integer id){
-        if (id!=null){
+    public String delete(Integer id) {
+        if (id != null) {
             dialogService.deleteDialog(id);
             return JSONObject.toJSONString(ResponseResult.OK());
         }

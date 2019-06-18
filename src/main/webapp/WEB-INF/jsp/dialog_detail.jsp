@@ -36,6 +36,12 @@
         .layui-field-title {
             margin: 5px;
         }
+
+        .layui-form-item-my {
+            margin-bottom: 15px;
+            clear: both;
+            *zoom: 1
+        }
     </style>
     <%--编辑对话框配置起点--%>
     <script>
@@ -59,7 +65,7 @@
                             url: "/dialog/delete",
                             data: {"id": data.id},
                             success: function (res) {
-                                if (res.code==1){
+                                if (res.code == 1) {
                                     layer.close(index);
                                 } else {
                                     layer.alert("删除异常，请重试！");
@@ -151,18 +157,70 @@
 
 
     <script id="upload_file_dialog" type="text/html">
-        <div class="layui-form-item">
-            <div class="layui-form-item">
-                <label class="layui-form-label">照片</label>
-                <div class="layui-input-block">
-                    <input type="file" name="uploadFile" required value="" style="width: 240px" lay-verify="required"
-                           autocomplete="off" class="layui-input">
-                </div>
+        <div class="layui-form-item" id="imagDiv">
+            <label class="layui-form-label">选择图片</label>
+            <div class="layui-input-block">
+                <input type="file" name="file" value="" style="width: 240px" lay-verify="required"
+                       autocomplete="off" class="upload" id="input-file" onchange="changeFile(event)"
+                       class="layui-input">
             </div>
         </div>
     </script>
     <%--文件上传表单终点--%>
+    <script>
+        function changeFile(event) {
+            $(".layui-form-item-my").html("");
+            $("#imagDiv").append(
+                '<div class="layui-form-item-my" >' +
+                '<label class="layui-form-label">图片文字</label>' +
+                '<div class="layui-input-block">' +
+                '<textarea   name="dialogContent" id="dialogContent"  autocomplete="off" class="layui-textarea"></textarea>' +
+                ' </div>' +
+                '</div>' +
+                '<div class="layui-form-item-my">' +
+                '<label class="layui-form-label">图片预览</label>' +
+                '<div class="layui-input-block">' +
+                ' <img src="" id="showImg">' +
+                ' </div>' +
+                ' </div>'
+            );
+            file = event.target.files[0];
+            var a = new FileReader();
+            a.onload = function (e) {
+                var base64Str = e.target.result;//获取base64
+                //下面是测试得到的base64串能否正常使用：
+                document.getElementById('showImg').src = base64Str;
+            };
+            a.readAsDataURL(file);
+            var imageData = new FormData();
+            imageData.append('file', $('#input-file')[0].files[0]);
+            $.ajax({
+                url: '/ocr/image',
+                type: 'POST',
+                data: imageData,
+                processData: false,
+                contentType: false,
+                mimeType: 'multipart/form-data',
+                success: function (res) {
+                    var obj = eval('(' + res + ')');
+                    if (obj.msg == 'success') {
 
+                        $("#dialogContent").val(obj.data);
+                    } else {
+                        layer.alert('图片文字解析错误！', {
+                            skin: 'layui-layer-molv' //样式类名
+                            , closeBtn: 0
+                        }, function () {
+                            location.reload();
+                        });
+                    }
+                },
+                error: function (res) {
+                    layer.alert('系统错误！');
+                }
+            })
+        }
+    </script>
     <%--新增对话框配置起点--%>
     <script>
 
@@ -185,7 +243,7 @@
                         '<div class="layui-form-item">' +
                         '<label class="layui-form-label">对话框名称</label>' +
                         '<div class="layui-input-block">' +
-                        '<input type="text" name="dialogName" required lay-verify="required" placeholder="请输入对话框名称" autocomplete="off" class="layui-input"> ' +
+                        '<input type="text" name="dialogName" required lay-verify="required" placeholder="请输入对话框名称" autocomplete="off" class="layui-input" > ' +
                         '</div> ' +
                         '</div>' +
                         '<div class="layui-form-item">' +
@@ -204,11 +262,11 @@
                         '<div class="layui-form-item">' +
                         '<div class="layui-input-block">' +
                         '<button class="layui-btn" lay-submit lay-filter="save" >立即提交</button>' +
-                        '<button type="reset" class="layui-btn layui-btn-primary">重置</button>  ' +
+                        '<button type="reset" id="resetBtn" class="layui-btn layui-btn-primary">重置</button>  ' +
                         '</div> ' +
                         '</div>  ' +
                         '</form>'
-                        +'<button id="button" class="layui-btn layui-btn-primary " style="width:86px;height:40px;clear:both;margin:22px 50px;" onclick="layer.close(layer.index)" >取消</button></div>'
+                        + '<button id="button" class="layui-btn layui-btn-primary " style="width:86px;height:40px;clear:both;margin:22px 50px;" onclick="layer.close(layer.index)" >取消</button></div>'
 
                 });
                 //重新渲染表单，否则下拉框，单选框等无法加载出来
@@ -219,7 +277,7 @@
         };
 
     </script>
-    <%--提交对话框新增起点--%>
+    <%--编辑对话框起点--%>
     <script>
         layui.use(['layer', 'form'], function () {
             var layer = layui.layer,
@@ -245,15 +303,15 @@
                     success: function (res) {
                         layer.close(index);
                         var resdata = eval(res);
-                        if (resdata.msg =='success'){
+                        if (resdata.msg == 'success') {
                             layer.alert('保存成功', {
                                 skin: 'layui-layer-molv' //样式类名
                                 , closeBtn: 0
                             }, function () {
                                 location.reload();
                             });
-                        }else {
-                            layer.alert(resdata.code+resdata.msg, {
+                        } else {
+                            layer.alert('保存失败', {
                                 skin: 'layui-layer-molv' //样式类名
                                 , closeBtn: 0
                             }, function () {
@@ -325,15 +383,15 @@
 
                         layer.close(index);
                         var resdata = eval(res);
-                        if (resdata.msg =='success'){
+                        if (resdata.msg == 'success') {
                             layer.alert('保存成功', {
                                 skin: 'layui-layer-molv' //样式类名
                                 , closeBtn: 0
                             }, function () {
                                 location.reload();
                             });
-                        }else {
-                            layer.alert(resdata.code+resdata.msg, {
+                        } else {
+                            layer.alert(resdata.code + resdata.msg, {
                                 skin: 'layui-layer-molv' //样式类名
                                 , closeBtn: 0
                             }, function () {
