@@ -49,11 +49,6 @@ public class DialogController {
         return "dialog_detail";
     }
 
-    @RequestMapping("/")
-    public String index(Model model) {
-        model.addAttribute("hello", "dsd");
-        return "test";
-    }
 
 
     /**
