@@ -36,7 +36,7 @@ public class CompanyInfoController {
 
         List<CompanyInfo> companyInfoList = companyInfoService.getCompanyInfoList();
         model.addAttribute("list", companyInfoList);
-        return "companyInfo_test1";
+        return "companyInfo_detail";
     }
 
     /**

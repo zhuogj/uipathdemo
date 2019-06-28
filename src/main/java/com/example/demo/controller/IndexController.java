@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/index")
 public class IndexController {
     @RequestMapping("/test")
-    public String index(String content){
-        System.out.println(content);
-        return content;
+    public String index(){
+        return "menu";
     }
     @RequestMapping("/index")
     public String index(Model model){

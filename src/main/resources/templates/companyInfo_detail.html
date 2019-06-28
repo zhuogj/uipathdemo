@@ -1,21 +1,15 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-<%
-    String path = request.getContextPath();
-    String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
-%>
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <base href="<%=basePath%>">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>对话框配置界面</title>
-    <link rel="stylesheet" href="layui/css/layui.css" media="all">
-    <script type="text/javascript" src="layui/layui.js"></script>
-    <script src="js/jquery-3.2.1.js"></script>
-    <script src="js/jquery-migrate-1.1.0.js"></script>
+    <title>软件位置信息配置界面</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}" media="all">
+    <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/js/jquery-3.2.1.js}"></script>
+    <script th:src="@{/js/jquery-migrate-1.1.0.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/layuiAdmin/style.css}"  href="/css/layuiAdmin/style.css" type="text/css">
     <style>
         <!--
         body {
@@ -37,7 +31,7 @@
             margin: 5px;
         }
     </style>
-    <%--编辑对话框配置起点--%>
+    <!--编辑对话框配置起点-->
     <script>
         layui.use(['layer', 'table', 'form', 'element'], function () {
             var layer = layui.layer,
@@ -151,12 +145,11 @@
             });
         });
     </script>
-    <%--编辑对话框配置终点--%>
+    <!--编辑对话框配置终点-->
 
 
 
-
-    <%--新增对话框配置起点--%>
+<!--新增对话框配置起点-->
     <script>
 
         function addConfiguration() {
@@ -229,7 +222,7 @@
         };
 
     </script>
-    <%--提交对话框新增起点--%>
+    <!--提交对话框新增起点-->
     <script>
         layui.use(['layer', 'form'], function () {
             var layer = layui.layer,
@@ -293,10 +286,9 @@
             parent.layer.close(index); //再执行关闭
         }
     </script>
-    <%--提交对话框配置编辑终点--%>
+    <!--提交对话框配置编辑终点-->
 
-
-    <%--提交对话框新增起点--%>
+<!--提交对话框新增起点-->
     <script>
         layui.use(['layer', 'form'], function () {
             var layer = layui.layer,
@@ -362,8 +354,8 @@
     </script>
 </head>
 <body>
-<%@ include file="head.jsp" %>
-<div id="content">
+<div th:include="menu::menu"></div>
+<div id="content" class="parentMain">
     <div>
         <div class="layui-row layui-col-space15">
             <div>
@@ -384,19 +376,17 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${list}" var="p" varStatus="index">
-                            <tr>
-                                <td>${index.count}</td>
-                                <td>${p.id}</td>
-                                <td>${p.companyName}</td>
-                                <td>${p.licenceNum}</td>
-                                <td>${p.accountId}</td>
-                                <td>${p.taxPassword}</td>
-                                <td>${p.clientPath}</td>
-                                <td>${p.createTime}</td>
-                                <td>${p.remarks}</td>
-                            </tr>
-                        </c:forEach>
+                        <tr th:each="p,index:${list}">
+                            <td th:text="${index.index}"></td>
+                            <td th:text="${p.id}"></td>
+                            <td th:text="${p.companyName}"></td>
+                            <td th:text="${p.licenceNum}"></td>
+                            <td th:text="${p.accountId}"></td>
+                            <td th:text="${p.taxPassword}"></td>
+                            <td th:text="${p.clientPath}"></td>
+                            <td th:text="${p.createTime}"></td>
+                            <td th:text="${p.remarks}"></td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>

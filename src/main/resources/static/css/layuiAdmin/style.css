@@ -1,0 +1,126 @@
+.parentTop{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 60px;
+    background-color: #393D49;
+}
+
+.appName{
+    color: white;
+    margin-left: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 60px;
+}
+
+.loginNameDiv{
+    position: absolute;
+    right: 20px;
+    top: 0;
+    font-size: 0;
+    height: 60px;
+}
+
+.loginIcon{
+    width: 40px;
+    height: 40px;
+    vertical-align: top;
+    margin-top: 10px;
+}
+
+.loginUserInfo{
+    font-size: 15px;
+    color: white;
+    margin-left: 15px;
+    margin-top: 12px;
+    display: inline-block;
+}
+
+.leftMenu{
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 200px;
+    bottom: 0;
+    background-color: #393D49;
+}
+
+.dialogMenu{
+    width: 130px;
+    position: absolute;
+    top: 60px;
+    background-color: white;
+    right: 0;
+    border: 1px solid #dddddd;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.12);
+    border-bottom: none;
+    display: none;
+}
+
+.dialogMenu .dialogMenu-item{
+    padding: 15px 0;
+    text-align: center;
+    border-bottom: 1px solid #dddddd;
+}
+
+.parentMain{
+    position: absolute;
+    top: 60px;
+    right: 0;
+    bottom:0;
+    left: 200px;
+    padding: 20px 0 0 20px;
+}
+
+.parentMain iframe{
+    width: 100%;
+    height: 98%;
+    border-width:0;
+}
+
+.topGrid{
+    font-size: 0;
+}
+
+.topGrid .itemWrapper{
+    width: 25%;
+    display: inline-block;
+}
+
+.topGrid .item{
+    color: white;
+    font-size: 12px;
+    padding: 10px;
+    border-radius: 6px;
+    margin-right: 10px;
+}
+
+.topGrid .item .name{
+    margin-bottom: 10px;
+}
+
+.topGrid .item .number{
+    font-size: 30px;
+}
+
+.topGrid .itemWrapper:nth-child(1) .item{
+    background-color: #1BC98E;
+}
+
+.topGrid .itemWrapper:nth-child(2) .item{
+    background-color: #E64758;
+}
+
+.topGrid .itemWrapper:nth-child(3) .item{
+    background-color: #9F85FF;
+}
+
+.topGrid .itemWrapper:nth-child(4) .item{
+    background-color: #E5D936;
+}
+
+#mountNode{
+    margin-top: 20px;
+}

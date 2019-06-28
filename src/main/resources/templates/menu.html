@@ -3,58 +3,76 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta name="viewport"
       content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-<title>对话框配置界面</title>
-<link rel="stylesheet" th:href="@{/layui/css/layui.css}" media="all">
-<script type="text/javascript" th:src="@{/layui/layui.js}"></script>
-<script th:src="@{/js/jquery-3.2.1.js}"></script>
-<script th:src="@{/js/jquery-migrate-1.1.0.js}"></script>
-
+<title>RPA后台管理系统</title>
+<script src="/layui/layui.all.js" th:src="@{layui/layui.all.js}"></script>
+<script src="/layui/layui.js" th:src="@{layui/layui.js}"></script>
+<link rel="stylesheet" th:href="@{/layui/css/layui.css}" href="/layui/css/layui.css" media="all">
+<script type="text/javascript" th:src="@{/layui/layui.js}" src="/layui/layui.js"></script>
+<script th:src="@{/js/jquery-3.2.1.js}" src="/js/jquery-3.2.1.js"></script>
+<script th:src="@{/js/jquery-migrate-1.1.0.js}" src="/js/jquery-migrate-1.1.0.js"></script>
+<link rel="stylesheet" th:href="@{/css/layuiAdmin/style.css}"  href="/css/layuiAdmin/style.css" type="text/css">
 </head>
 <body>
-<div th:fragment="menu">
-<div class="layui-tab layui-tab-card site-demo-button" style="position: relative;">
-    <ul class="layui-nav layui-nav-tree layui-inline" lay-filter="demo" style="margin-right: 10px;">
-        <li class="layui-nav-item layui-nav-itemed">
-            <a href="javascript:;">Uipath配置中心</a>
-            <dl class="layui-nav-child">
-                <dd><a th:href="@{/dialog/getList}">软件位置管理</a></dd>
-                <dd><a href="javascript:;">对话框配置</a></dd>
-
-            </dl>
-        </li>
+<!--页面头部-->
+<header th:fragment="menu">
+<div class="parentTop">
+    <a href="#" class="appName" >RPA后台管理系统</a>
+    <!--<div class="LoginNameDiv">-->
+        <!--<img th:src="@{/images/icon.png}">-->
+        <!--<div class="loginUserInfo">-->
+            <!--<span>技术创新中心</span>-->
+            <!--<span>zgj</span>-->
+        <!--</div>-->
+    <!--</div>-->
+    <ul class="layui-nav layui-layout-right">
         <li class="layui-nav-item">
-            <a href="javascript:;">解决方案</a>
+            <a href="javascript:;">
+                <img th:src="@{/images/face.jpg}" class="layui-nav-img">
+                卓光景
+            </a>
             <dl class="layui-nav-child">
-                <dd><a href="">移动模块</a></dd>
-                <dd><a href="">后台模版</a></dd>
-                <dd><a href="">电商平台</a></dd>
+                <dd lay-unselect><a href="">基本资料</a></dd>
+                <dd lay-unselect><a href="">安全设置</a></dd>
             </dl>
         </li>
-        <li class="layui-nav-item"><a href="">云市场</a></li>
-        <li class="layui-nav-item"><a href="">社区</a></li>
-    </ul>
-    <ul class="layui-nav layui-nav-tree layui-bg-cyan layui-inline" lay-filter="demo">
-        <li class="layui-nav-item layui-nav-itemed">
-            <a href="javascript:;">默认展开</a>
-            <dl class="layui-nav-child">
-                <dd><a href="javascript:;">选项一</a></dd>
-                <dd><a href="javascript:;">选项二</a></dd>
-                <dd><a href="javascript:;">选项三</a></dd>
-                <dd><a href="">跳转项</a></dd>
-            </dl>
-        </li>
-        <li class="layui-nav-item">
-            <a href="javascript:;">解决方案</a>
-            <dl class="layui-nav-child">
-                <dd><a href="">移动模块</a></dd>
-                <dd><a href="">后台模版</a></dd>
-                <dd><a href="">电商平台</a></dd>
-            </dl>
-        </li>
-        <li class="layui-nav-item"><a href="">云市场</a></li>
-        <li class="layui-nav-item"><a href="">社区</a></li>
+        <li class="layui-nav-item"><a href="">退了</a></li>
     </ul>
 </div>
+<!--左侧菜单栏-->
+<div class="leftMenu">
+    <ul class="layui-nav layui-nav-tree" lay-filter="test">
+        <li class="layui-nav-item layui-nav-itemed">
+            <a> Uipath项目管理</a>
+            <dl class="layui-nav-child">
+                <!--href标签要配置地址-->
+                <dd><a href="/dialog/getList">对话框配置</a></dd>
+                <dd><a href="/companyInfo/getList">软件位置配置</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item layui-nav-itemed"><a>萤石云项目管理</a>
+            <dl class="layui-nav-child">
+                <dd><a href="">云视频回放</a></dd>
+            </dl>
+        </li>
+    </ul>
 </div>
+<!--右侧内容区-->
+<div class="parentMain">
+    <iframe id="iframeParent"></iframe>
+</div>
+<!--设置弹框-->
+<div class="dialogMenu">
+    <div id="parentChangePassword" class="dialogMenu-item">修改密码</div>
+    <div id="parentExit" class="dialogMenu-item">退出</div>
+</div>
+</header>
 </body>
+
+<script>
+    //JavaScript代码区域
+    layui.use('element', function(){
+        var element = layui.element;
+
+    });
+</script>
 </html>

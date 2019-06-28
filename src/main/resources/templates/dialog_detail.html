@@ -8,6 +8,8 @@
 <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
 <script th:src="@{/js/jquery-3.2.1.js}"></script>
 <script th:src="@{/js/jquery-migrate-1.1.0.js}"></script>
+<link rel="stylesheet" th:href="@{/css/layuiAdmin/style.css}"  href="/css/layuiAdmin/style.css" type="text/css">
+
 <style>
     <!--
     body {
@@ -430,53 +432,9 @@
 </script>
 </head>
 <body>
-<div th:include="common::header"></div>
-<!--<div th:include="menu::menu"></div>-->
-<div class="layui-tab layui-tab-card site-demo-button" style="position: relative;">
-    <ul class="layui-nav layui-nav-tree layui-inline" lay-filter="demo" style="margin-right: 10px;">
-        <li class="layui-nav-item layui-nav-itemed">
-            <a href="javascript:;">Uipath配置中心</a>
-            <dl class="layui-nav-child">
-                <dd><a th:href="@{/dialog/getList}">软件位置管理</a></dd>
-                <dd><a href="javascript:;">对话框配置</a></dd>
+<div th:include="menu::menu"></div>
 
-            </dl>
-        </li>
-        <li class="layui-nav-item">
-            <a href="javascript:;">解决方案</a>
-            <dl class="layui-nav-child">
-                <dd><a href="">移动模块</a></dd>
-                <dd><a href="">后台模版</a></dd>
-                <dd><a href="">电商平台</a></dd>
-            </dl>
-        </li>
-        <li class="layui-nav-item"><a href="">云市场</a></li>
-        <li class="layui-nav-item"><a href="">社区</a></li>
-    </ul>
-    <ul class="layui-nav layui-nav-tree layui-bg-cyan layui-inline" lay-filter="demo">
-        <li class="layui-nav-item layui-nav-itemed">
-            <a href="javascript:;">默认展开</a>
-            <dl class="layui-nav-child">
-                <dd><a href="javascript:;">选项一</a></dd>
-                <dd><a href="javascript:;">选项二</a></dd>
-                <dd><a href="javascript:;">选项三</a></dd>
-                <dd><a href="">跳转项</a></dd>
-            </dl>
-        </li>
-        <li class="layui-nav-item">
-            <a href="javascript:;">解决方案</a>
-            <dl class="layui-nav-child">
-                <dd><a href="">移动模块</a></dd>
-                <dd><a href="">后台模版</a></dd>
-                <dd><a href="">电商平台</a></dd>
-            </dl>
-        </li>
-        <li class="layui-nav-item"><a href="">云市场</a></li>
-        <li class="layui-nav-item"><a href="">社区</a></li>
-    </ul>
-</div>
-
-<div id="content">
+<div id="content" class="parentMain">
     <div>
         <div class="layui-row layui-col-space15">
             <div>

@@ -73,7 +73,7 @@ public class DialogController {
      * todo:获取机器码信息作为创建人和修改人信息
      *
      * @param dialogInfo
-     * @param uploadFile
+     * @param file
      * @return
      */
     @ResponseBody
